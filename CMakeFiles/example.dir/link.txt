@@ -1,0 +1,1 @@
+/bin/c++   -g   CMakeFiles/example.dir/src/Main.cpp.o  -o bin/example -rdynamic -lIrrlicht -lGLU -lGL -lBulletDynamics -lBulletCollision -lLinearMath -lBulletSoftBody 
