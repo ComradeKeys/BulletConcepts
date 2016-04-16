@@ -55,7 +55,7 @@ public:
 		break;
 
 	    case KEY_KEY_2:
-		CreateSphere(btVector3(Camera->getPosition().X, Camera->getPosition().Y, Camera->getPosition().Z), GetRandInt(5) / 5.0f + 0.2f, 1.0f);
+		CreateSphere(btVector3(Camera->getPosition().X, Camera->getPosition().Y, Camera->getPosition().Z), 1.0f, 1.0f);
 		break;
 
 	    case KEY_KEY_X:
@@ -219,11 +219,11 @@ void CreateSphere(const btVector3 &TPosition, btScalar TRadius, btScalar TMass) 
     btRigidBody *RigidBody = new btRigidBody(TMass, MotionState, Shape, LocalInertia);
 
     RigidBody->setLinearVelocity(btVector3(0,
-					   (Camera->getRotation().X * 3.14 ) / 180,
+					   ((Camera->getRotation().X * 3.14 ) / 180),
 					   20));
 
 
-    std::cout << "X: " << Camera->getRotation().X << std::endl <<
+    std::cout << "X: " << ((Camera->getRotation().X * 3.14 ) / 180) << std::endl <<
 	"Y: " << Camera->getRotation().Y << std::endl <<
 	"Z: " << Camera->getRotation().Z << std::endl;
 
@@ -238,23 +238,23 @@ void CreateSphere(const btVector3 &TPosition, btScalar TRadius, btScalar TMass) 
 void UpdateRender(btRigidBody *TObject) {
     ISceneNode *Node = static_cast<ISceneNode *>(TObject->getUserPointer());
 
-	// Set position
-	btVector3 Point = TObject->getCenterOfMassPosition();
-	Node->setPosition(vector3df((f32)Point[0], (f32)Point[1], (f32)Point[2]));
+    // Set position
+    btVector3 Point = TObject->getCenterOfMassPosition();
+    Node->setPosition(vector3df((f32)Point[0], (f32)Point[1], (f32)Point[2]));
 
-	// Set rotation
-	vector3df Euler;
-	const btQuaternion& TQuat = TObject->getOrientation();
-	quaternion q(TQuat.getX(), TQuat.getY(), TQuat.getZ(), TQuat.getW());
-	q.toEuler(Euler);
-	Euler *= RADTODEG;
-	Node->setRotation(Euler);
-    }
+    // Set rotation
+    vector3df Euler;
+    const btQuaternion& TQuat = TObject->getOrientation();
+    quaternion q(TQuat.getX(), TQuat.getY(), TQuat.getZ(), TQuat.getW());
+    q.toEuler(Euler);
+    Euler *= RADTODEG;
+    Node->setRotation(Euler);
+}
 
-    // Removes all objects from the world
-    void ClearObjects() {
+// Removes all objects from the world
+void ClearObjects() {
 
-	for(list<btRigidBody *>::Iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
+    for(list<btRigidBody *>::Iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
 	    btRigidBody *Object = *Iterator;
 
 	    // Delete irrlicht node
