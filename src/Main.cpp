@@ -218,9 +218,9 @@ void CreateSphere(const btVector3 &TPosition, btScalar TRadius, btScalar TMass) 
     // Create the rigid body object
     btRigidBody *RigidBody = new btRigidBody(TMass, MotionState, Shape, LocalInertia);
 
-    RigidBody->setLinearVelocity(btVector3(Camera->getRotation().X,
-					   Camera->getRotation().Y,
-					   Camera->getRotation().Z));
+    RigidBody->setLinearVelocity(btVector3(0,
+					   (Camera->getRotation().X * 3.14 ) / 180,
+					   20));
 
 
     std::cout << "X: " << Camera->getRotation().X << std::endl <<
@@ -238,23 +238,23 @@ void CreateSphere(const btVector3 &TPosition, btScalar TRadius, btScalar TMass) 
 void UpdateRender(btRigidBody *TObject) {
     ISceneNode *Node = static_cast<ISceneNode *>(TObject->getUserPointer());
 
-    // Set position
-    btVector3 Point = TObject->getCenterOfMassPosition();
-    Node->setPosition(vector3df((f32)Point[0], (f32)Point[1], (f32)Point[2]));
+	// Set position
+	btVector3 Point = TObject->getCenterOfMassPosition();
+	Node->setPosition(vector3df((f32)Point[0], (f32)Point[1], (f32)Point[2]));
 
-    // Set rotation
-    vector3df Euler;
-    const btQuaternion& TQuat = TObject->getOrientation();
-    quaternion q(TQuat.getX(), TQuat.getY(), TQuat.getZ(), TQuat.getW());
-    q.toEuler(Euler);
-    Euler *= RADTODEG;
-    Node->setRotation(Euler);
-}
+	// Set rotation
+	vector3df Euler;
+	const btQuaternion& TQuat = TObject->getOrientation();
+	quaternion q(TQuat.getX(), TQuat.getY(), TQuat.getZ(), TQuat.getW());
+	q.toEuler(Euler);
+	Euler *= RADTODEG;
+	Node->setRotation(Euler);
+    }
 
-// Removes all objects from the world
-void ClearObjects() {
+    // Removes all objects from the world
+    void ClearObjects() {
 
-    for(list<btRigidBody *>::Iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
+	for(list<btRigidBody *>::Iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
 	    btRigidBody *Object = *Iterator;
 
 	    // Delete irrlicht node
