@@ -219,8 +219,8 @@ void CreateSphere(const btVector3 &TPosition, btScalar TRadius, btScalar TMass) 
     btRigidBody *RigidBody = new btRigidBody(TMass, MotionState, Shape, LocalInertia);
 
     RigidBody->setLinearVelocity(btVector3(0,
-					   ((Camera->getRotation().X * M_PI ) / 180),
-					   20));
+					   ((Camera->getRotation().X * M_PI ) / 180.0f),
+					   20.0f));
 
 
     std::cout << "X: " << ((Camera->getRotation().X * M_PI ) / 180) << std::endl <<
