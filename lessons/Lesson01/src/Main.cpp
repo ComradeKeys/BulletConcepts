@@ -105,7 +105,7 @@ int main() {
 
     // Add camera
     cam = smgr->addCameraSceneNodeFPS(0, 100, 0.01f);
-    cam->setPosition(irr::core::vector3df(0, 5, -5));
+    cam->setPosition(irr::core::vector3df(0, 2, -10));
     cam->setTarget(irr::core::vector3df(0, 0, 0));
 
     // Create text
@@ -179,12 +179,19 @@ void createBox(const btVector3 &tPosition, const irr::core::vector3df &tScale, c
     node->setMaterialFlag(irr::video::EMF_NORMALIZE_NORMALS, true);
     node->setMaterialTexture(0, driver->getTexture(path));
 
+
+    /*
+btRigidBodyConstructionInfo (btScalar mass, btMotionState *motionState, btCollisionShape *collisionShape, const btVector3 &localInertia=btVector3(0, 0, 0))
+btRigidBody (btScalar mass, btMotionState *motionState, btCollisionShape *collisionShape, const btVector3 &localInertia=btVector3(0, 0, 0))
+     */
     // Set the initial position of the object
     btTransform transform;
     transform.setIdentity();
     transform.setOrigin(tPosition);
 
+
     btDefaultMotionState *MotionState = new btDefaultMotionState(transform);
+
 
     // Create the shape
     btVector3 HalfExtents(tScale.X * 0.5f, tScale.Y * 0.5f, tScale.Z * 0.5f);
@@ -194,8 +201,13 @@ void createBox(const btVector3 &tPosition, const irr::core::vector3df &tScale, c
     btVector3 LocalInertia;
     Shape->calculateLocalInertia(tMass, LocalInertia);
 
+
+    btRigidBody::btRigidBodyConstructionInfo info(tMass, MotionState, Shape, LocalInertia);
+
+    info.m_friction = 100000.0f;
+
     // Create the rigid body object
-    btRigidBody *rigidBody = new btRigidBody(tMass, MotionState, Shape, LocalInertia);
+    btRigidBody *rigidBody = new btRigidBody(info);
 
     // Store a pointer to the irrlicht node so we can update it later
     rigidBody->setUserPointer((void *)(node));
