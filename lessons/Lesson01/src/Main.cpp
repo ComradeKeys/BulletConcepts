@@ -10,6 +10,7 @@
 static void createStartScene();
 static void createBox(const btVector3 &tPosition, const irr::core::vector3df &tScale, const btScalar &tMass, const char *path = "assets/lava.png");
 static void createSphere(const btVector3 &tPosition, const btScalar &tRadius, const btScalar &tMass, btVector3 vel = btVector3(0, 0, 0), const char *path = "assets/clouds.png");
+static void createCylinder(const btVector3 &tPosition, const btVector3 &scale, const btScalar &tMass, btVector3 vel = btVector3(0, 0, 0), const char *path = "assets/water.png");
 static void updatePhysics(const irr::u32 &tDeltaTime);
 static void updateRender(const btRigidBody *tObject);
 static void clearObjects();
@@ -50,6 +51,10 @@ public:
 		createSphere(btVector3(getRandInt(10) - 5.0f, 7.0f, getRandInt(10) - 5.0f), 0.5f, 1.0f);
 		break;
 
+	    case irr::KEY_KEY_3:
+		createCylinder(btVector3(getRandInt(10) - 5.0f, 7.0f, getRandInt(10) - 5.0f), btVector3(0.5f, 0.75f, 0.5f), 1.0f);
+		break;
+
 	    case irr::KEY_KEY_X:
 		createStartScene();
 		break;
@@ -69,7 +74,6 @@ public:
 		break;
 
 	    default:
-		// We won't use the wheel
 		break;
 	    }
 	}
@@ -104,18 +108,16 @@ int main() {
     cam->setPosition(irr::core::vector3df(0, 5, -5));
     cam->setTarget(irr::core::vector3df(0, 0, 0));
 
-    // Preload textures
-    driver->getTexture("assets/grass.png");
-    driver->getTexture("assets/lava.png");
-
     // Create text
     irr::gui::IGUISkin *skin = guienv->getSkin();
     skin->setColor(irr::gui::EGDC_BUTTON_TEXT, irr::video::SColor(255, 255, 255, 255));
     guienv->addStaticText(L"Hit 1 to create a box\nHit 2 to shoot a sphere\nHit x to reset", irr::core::rect<irr::s32>(0, 0, 200, 100), false);
+
+    //adding a croshair
     guienv->addStaticText(L"+", irr::core::rect<irr::s32>(scrnW / 2, scrnH / 2, (scrnW / 2) + 5, (scrnH / 2) + 10), false);
 
     // Create the initial scene
-    smgr->addLightSceneNode(0, irr::core::vector3df(2, 5, -2), irr::video::SColorf(4, 4, 4, 1));
+    smgr->addLightSceneNode(0, irr::core::vector3df(2, 10, -2), irr::video::SColorf(4, 4, 4, 1));
     createStartScene();
 
     // Main loop
@@ -165,6 +167,8 @@ void createStartScene() {
     clearObjects();
     createBox(btVector3(0.0f, 0.0f, 0.0f), irr::core::vector3df(10.0f, 0.5f, 10.0f), 0.0f, "assets/grass.png");
 }
+
+
 
 // Create a box rigid body
 void createBox(const btVector3 &tPosition, const irr::core::vector3df &tScale, const btScalar &tMass, const char *path) {
@@ -218,6 +222,43 @@ void createSphere(const btVector3 &tPosition, const btScalar &tRadius, const btS
 
     // Create the shape
     btCollisionShape *Shape = new btSphereShape(tRadius);
+
+    // Add mass
+    btVector3 LocalInertia;
+    Shape->calculateLocalInertia(tMass, LocalInertia);
+
+    // Create the rigid body object
+    btRigidBody *rigidBody = new btRigidBody(tMass, MotionState, Shape, LocalInertia);
+
+    rigidBody->setLinearVelocity(vel);
+
+    // Store a pointer to the irrlicht node so we can update it later
+    rigidBody->setUserPointer(static_cast<void *>(node));
+    // Add it to the world
+    world->addRigidBody(rigidBody);
+    worldObjs.push_back(rigidBody);
+}
+
+void createCylinder(const btVector3 &tPosition, const btVector3 &scale, const btScalar &tMass, btVector3 vel, const char *path) {
+
+    irr::scene::IMesh* cylinder = smgr->getMesh("assets/cylinder.obj");
+    // make sure cylinder got created
+
+    irr::scene::ISceneNode *node = smgr->addMeshSceneNode(cylinder);
+    node->setScale(irr::core::vector3df(scale.getX(), scale.getY(), scale.getX()));
+    node->setMaterialFlag(irr::video::EMF_LIGHTING, 1);
+    node->setMaterialFlag(irr::video::EMF_NORMALIZE_NORMALS, true);
+    node->setMaterialTexture(0, driver->getTexture(path));
+
+    // Set the initial position of the object
+    btTransform transform;
+    transform.setIdentity();
+    transform.setOrigin(tPosition);
+
+    btDefaultMotionState *MotionState = new btDefaultMotionState(transform);
+
+    // Create the shape
+    btCollisionShape *Shape = new btCylinderShape(scale);
 
     // Add mass
     btVector3 LocalInertia;
