@@ -218,12 +218,13 @@ void CreateSphere(const btVector3 &TPosition, btScalar TRadius, btScalar TMass) 
     // Create the rigid body object
     btRigidBody *RigidBody = new btRigidBody(TMass, MotionState, Shape, LocalInertia);
 
-    RigidBody->setLinearVelocity(btVector3(0,
-					   ((Camera->getRotation().X * M_PI ) / 180.0f),
-					   20.0f));
+    float xv = sin(Camera->getRotation().Y * M_PI / 180.0f) * cos(Camera->getRotation().X * M_PI / 180.0f) * 10.0f;
+    float yv = -1 * sin(Camera->getRotation().X * M_PI / 180.0f) * 10.0f;
+    float zv = cos(Camera->getRotation().Y * M_PI / 180.0f) * cos(Camera->getRotation().X * M_PI / 180.0f) * 10.0f;
 
+    RigidBody->setLinearVelocity(btVector3(xv, yv, zv));
 
-    std::cout << "X: " << ((Camera->getRotation().X * M_PI ) / 180) << std::endl <<
+    std::cout << "X: " << Camera->getRotation().X << std::endl <<
 	"Y: " << Camera->getRotation().Y << std::endl <<
 	"Z: " << Camera->getRotation().Z << std::endl;
 
