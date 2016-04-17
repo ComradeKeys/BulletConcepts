@@ -111,7 +111,7 @@ int main() {
     // Create text
     irr::gui::IGUISkin *skin = guienv->getSkin();
     skin->setColor(irr::gui::EGDC_BUTTON_TEXT, irr::video::SColor(255, 255, 255, 255));
-    guienv->addStaticText(L"Hit 1 to create a box\nHit 2 to shoot a sphere\nHit x to reset", irr::core::rect<irr::s32>(0, 0, 200, 100), false);
+    guienv->addStaticText(L"1 to spawn a cube\n2 to spawn a sphere\n3 to spawn a cylinder\nHit x to reset", irr::core::rect<irr::s32>(0, 0, 200, 100), false);
 
     //adding a croshair
     guienv->addStaticText(L"+", irr::core::rect<irr::s32>(scrnW / 2, scrnH / 2, (scrnW / 2) + 5, (scrnH / 2) + 10), false);
