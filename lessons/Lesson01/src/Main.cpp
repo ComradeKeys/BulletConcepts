@@ -146,11 +146,12 @@ int main() {
 	}
 
 
-	driver->draw3DLine(irr::core::vector3df(btFrom.getX(), btFrom.getY(), btFrom.getZ()),
-			   irr::core::vector3df(btFrom.getX(),
-						btFrom.getY(),
-						btFrom.getZ() + 1000),
-			   irr::video::SColor(255, 0, 0, 0));
+	//driver->draw3DLine(irr::core::vector3df(btFrom.getX(), btFrom.getY(), btFrom.getZ()),
+			   //irr::core::vector3df(btFrom.getX(),
+						//btFrom.getY(),
+						//btFrom.getZ() + 1000),
+			   //irr::video::SColor(255, 0, 0, 0));
+    driver->draw3DLine(irr::core::vector3df(10.0f, 10.0f, 10.0f), irr::core::vector3df(15.0f, 15.0f, 15.0f));
 
 	guienv->drawAll();
 	driver->endScene();
