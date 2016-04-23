@@ -4,7 +4,6 @@
 #include <cmath>
 #include <list>
 #include <vector>
-#include <string>
 
 // Functions
 static void createStartScene();
@@ -44,6 +43,8 @@ public:
 		done = true;
 		break;
 	    case irr::KEY_KEY_1:
+		
+		//btRigidBodyConstructionInfo (btScalar mass, btMotionState *motionState, btCollisionShape *collisionShape, const btVector3 &localInertia=btVector3(0, 0, 0))
 		createBox(btVector3(getRandInt(10) - 5.0f, 7.0f, getRandInt(10) - 5.0f), irr::core::vector3df(getRandInt(3) + 0.5f, getRandInt(3) + 0.5f, getRandInt(3) + 0.5f), 1.0f, "assets/gold.png");
 		break;
 
@@ -71,9 +72,6 @@ public:
 	    switch(tEvent.MouseInput.Event) {
 	    case irr::EMIE_LMOUSE_PRESSED_DOWN:
 		createSphere(btVector3(cam->getPosition().X, cam->getPosition().Y, cam->getPosition().Z), 0.25f, 1.0f, btVector3(XVEL, YVEL, ZVEL), "assets/lava.png");
-		break;
-
-	    default:
 		break;
 	    }
 	}
@@ -122,6 +120,7 @@ int main() {
 
     // Main loop
     irr::u32 timeStamp = timer->getTime(), deltaTime = 0;
+    
     while(!done) {
 
 	deltaTime = timer->getTime() - timeStamp;
@@ -134,6 +133,21 @@ int main() {
 	guienv->drawAll();
 	driver->endScene();
 	device->run();
+
+	btVector3 btFrom(cam->getPosition().X, cam->getPosition().Y, cam->getPosition().Z);
+	btVector3 btTo(cam->getPosition().X, cam->getPosition().Y, 5000.0f);
+	btCollisionWorld::ClosestRayResultCallback res(btFrom, btTo);
+
+	world->rayTest(btFrom, btTo, res); // m_btWorld is btDiscreteDynamicsWorld
+
+	/* attempting to visualize the raycast
+	driver->draw3DLine(irr::core::vector3df(cam->getPosition().X, cam->getPosition().Y, cam->getPosition().Z),
+			   irr::core::vector3df(cam->getPosition().X, cam->getPosition().Y, 5000.0f));
+	*/
+
+	if(res.hasHit()){
+	    printf("Collision at: <%.2f, %.2f, %.2f>\n", res.m_hitPointWorld.getX(), res.m_hitPointWorld.getY(), res.m_hitPointWorld.getZ());
+	}
     }
 
     clearObjects();
@@ -168,8 +182,6 @@ void createStartScene() {
     createBox(btVector3(0.0f, 0.0f, 0.0f), irr::core::vector3df(10.0f, 0.5f, 10.0f), 0.0f, "assets/grass.png");
 }
 
-
-
 // Create a box rigid body
 void createBox(const btVector3 &tPosition, const irr::core::vector3df &tScale, const btScalar &tMass, const char *path) {
 
@@ -179,19 +191,12 @@ void createBox(const btVector3 &tPosition, const irr::core::vector3df &tScale, c
     node->setMaterialFlag(irr::video::EMF_NORMALIZE_NORMALS, true);
     node->setMaterialTexture(0, driver->getTexture(path));
 
-
-    /*
-btRigidBodyConstructionInfo (btScalar mass, btMotionState *motionState, btCollisionShape *collisionShape, const btVector3 &localInertia=btVector3(0, 0, 0))
-btRigidBody (btScalar mass, btMotionState *motionState, btCollisionShape *collisionShape, const btVector3 &localInertia=btVector3(0, 0, 0))
-     */
     // Set the initial position of the object
     btTransform transform;
     transform.setIdentity();
     transform.setOrigin(tPosition);
 
-
     btDefaultMotionState *MotionState = new btDefaultMotionState(transform);
-
 
     // Create the shape
     btVector3 HalfExtents(tScale.X * 0.5f, tScale.Y * 0.5f, tScale.Z * 0.5f);
@@ -201,10 +206,10 @@ btRigidBody (btScalar mass, btMotionState *motionState, btCollisionShape *collis
     btVector3 LocalInertia;
     Shape->calculateLocalInertia(tMass, LocalInertia);
 
-
     btRigidBody::btRigidBodyConstructionInfo info(tMass, MotionState, Shape, LocalInertia);
 
     info.m_friction = 100000.0f;
+    info.m_restitution = 1.0f;
 
     // Create the rigid body object
     btRigidBody *rigidBody = new btRigidBody(info);
