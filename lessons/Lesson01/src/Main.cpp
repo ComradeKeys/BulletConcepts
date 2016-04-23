@@ -123,6 +123,9 @@ int main() {
     
     while(!done) {
 
+	btVector3 btFrom(cam->getPosition().X, cam->getPosition().Y, cam->getPosition().Z);
+	btVector3 btTo(XVEL, YVEL, ZVEL);
+
 	deltaTime = timer->getTime() - timeStamp;
 	timeStamp = timer->getTime();
 
@@ -130,20 +133,15 @@ int main() {
 
 	driver->beginScene(true, true, irr::video::SColor(255, 20, 0, 0));
 	smgr->drawAll();
+	driver->draw3DLine(irr::core::vector3df(cam->getPosition().X, cam->getPosition().Y, cam->getPosition().Z),
+			   irr::core::vector3df(XVEL, YVEL, ZVEL));
 	guienv->drawAll();
 	driver->endScene();
 	device->run();
 
-	btVector3 btFrom(cam->getPosition().X, cam->getPosition().Y, cam->getPosition().Z);
-	btVector3 btTo(XVEL, YVEL, ZVEL);
 	btCollisionWorld::ClosestRayResultCallback res(btFrom, btTo);
 
 	world->rayTest(btFrom, btTo, res); // m_btWorld is btDiscreteDynamicsWorld
-
-	/* attempting to visualize the raycast
-	driver->draw3DLine(irr::core::vector3df(cam->getPosition().X, cam->getPosition().Y, cam->getPosition().Z),
-			   irr::core::vector3df(cam->getPosition().X, cam->getPosition().Y, 5000.0f));
-	*/
 
 	if(res.hasHit()){
 	    printf("Collision at: <%.2f, %.2f, %.2f>\n", res.m_hitPointWorld.getX(), res.m_hitPointWorld.getY(), res.m_hitPointWorld.getZ());
