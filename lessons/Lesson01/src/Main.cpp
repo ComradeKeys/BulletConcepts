@@ -67,7 +67,12 @@ public:
 	if(tEvent.EventType == irr::EET_MOUSE_INPUT_EVENT) {
 	    switch(tEvent.MouseInput.Event) {
 	    case irr::EMIE_LMOUSE_PRESSED_DOWN:
-		createSphere(btVector3(cam->getPosition().X, cam->getPosition().Y, cam->getPosition().Z), 0.25f, 1.0f, btVector3(sin(cam->getRotation().Y * M_PI / 180.0f) * cos(cam->getRotation().X * M_PI / 180.0f) * 50.0f, -1 * sin(cam->getRotation().X * M_PI / 180.0f) * 50.0f, cos(cam->getRotation().Y * M_PI / 180.0f) * cos(cam->getRotation().X * M_PI / 180.0f) * 50.0f), "assets/lava.png");
+		createSphere(btVector3(cam->getPosition().X,
+				       cam->getPosition().Y,
+				       cam->getPosition().Z),
+			     0.25f, 1.0f, btVector3(sin(cam->getRotation().Y * M_PI / 180.0f) * cos(cam->getRotation().X * M_PI / 180.0f) * 50.0f, -1 * sin(cam->getRotation().X * M_PI / 180.0f) * 50.0f,
+						    cos(cam->getRotation().Y * M_PI / 180.0f) * cos(cam->getRotation().X * M_PI / 180.0f) * 50.0f),
+			     "assets/lava.png");
 		break;
 	    }
 	}
@@ -108,7 +113,7 @@ int main() {
     guienv->addStaticText(L"1 to spawn a cube\n2 to spawn a sphere\n3 to spawn a cylinder\nHit x to reset", irr::core::rect<irr::s32>(0, 0, 200, 100), false);
 
     //adding a croshair
-    guienv->addStaticText(L"+", irr::core::rect<irr::s32>(scrnW / 2, scrnH / 2, (scrnW / 2) + 5, (scrnH / 2) + 10), false);
+    //    guienv->addStaticText(L"+", irr::core::rect<irr::s32>(scrnW / 2, scrnH / 2, (scrnW / 2) + 5, (scrnH / 2) + 10), false);
 
     // Create the initial scene
     smgr->addLightSceneNode(0, irr::core::vector3df(2, 10, -2), irr::video::SColorf(4, 4, 4, 1));
@@ -120,7 +125,9 @@ int main() {
     while(!done) {
 
 	btVector3 btFrom(cam->getPosition().X, cam->getPosition().Y, cam->getPosition().Z);
-	btVector3 btTo(sin(cam->getRotation().Y * M_PI / 180.0f) * cos(cam->getRotation().X * M_PI / 180.0f) * 50.0f, -1 * sin(cam->getRotation().X * M_PI / 180.0f) * 50.0f, cos(cam->getRotation().Y * M_PI / 180.0f) * cos(cam->getRotation().X * M_PI / 180.0f) * 50.0f);
+	btVector3 btTo(sin(cam->getRotation().Y * M_PI / 180.0f) * cos(cam->getRotation().X * M_PI / 180.0f) * 50.0f,
+		       -1 * sin(cam->getRotation().X * M_PI / 180.0f) * 50.0f,
+		       cos(cam->getRotation().Y * M_PI / 180.0f) * cos(cam->getRotation().X * M_PI / 180.0f) * 50.0f);
 
 	deltaTime = timer->getTime() - timeStamp;
 	timeStamp = timer->getTime();
@@ -129,11 +136,6 @@ int main() {
 
 	driver->beginScene(true, true, irr::video::SColor(255, 20, 0, 0));
 	smgr->drawAll();
-	driver->draw3DLine(irr::core::vector3df(btFrom.getX(), btFrom.getY(), btFrom.getZ()),
-			   irr::core::vector3df(btTo.getX(), btTo.getY(), btTo.getZ()));
-	guienv->drawAll();
-	driver->endScene();
-	device->run();
 
 	btCollisionWorld::ClosestRayResultCallback res(btFrom, btTo);
 
@@ -142,6 +144,18 @@ int main() {
 	if(res.hasHit()){
 	    printf("Collision at: <%.2f, %.2f, %.2f>\n", res.m_hitPointWorld.getX(), res.m_hitPointWorld.getY(), res.m_hitPointWorld.getZ());
 	}
+
+
+	driver->draw3DLine(irr::core::vector3df(btFrom.getX(), btFrom.getY(), btFrom.getZ()),
+			   irr::core::vector3df(btFrom.getX(),
+						btFrom.getY(),
+						btFrom.getZ() + 1000),
+			   irr::video::SColor(255, 0, 0, 0));
+
+	guienv->drawAll();
+	driver->endScene();
+	device->run();
+
     }
 
     clearObjects();
