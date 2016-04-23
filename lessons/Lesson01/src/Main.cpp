@@ -135,7 +135,7 @@ int main() {
 	device->run();
 
 	btVector3 btFrom(cam->getPosition().X, cam->getPosition().Y, cam->getPosition().Z);
-	btVector3 btTo(cam->getPosition().X, cam->getPosition().Y, 5000.0f);
+	btVector3 btTo(XVEL, YVEL, ZVEL);
 	btCollisionWorld::ClosestRayResultCallback res(btFrom, btTo);
 
 	world->rayTest(btFrom, btTo, res); // m_btWorld is btDiscreteDynamicsWorld
