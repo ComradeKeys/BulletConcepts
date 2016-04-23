@@ -73,6 +73,21 @@ public:
 			     0.25f, 1.0f, btVector3(sin(cam->getRotation().Y * M_PI / 180.0f) * cos(cam->getRotation().X * M_PI / 180.0f) * 50.0f, -1 * sin(cam->getRotation().X * M_PI / 180.0f) * 50.0f,
 						    cos(cam->getRotation().Y * M_PI / 180.0f) * cos(cam->getRotation().X * M_PI / 180.0f) * 50.0f),
 			     "assets/lava.png");
+
+	btVector3 btFrom(cam->getPosition().X, cam->getPosition().Y, cam->getPosition().Z);
+	btVector3 btTo(sin(cam->getRotation().Y * M_PI / 180.0f) * cos(cam->getRotation().X * M_PI / 180.0f) * 50.0f,
+		       -1 * sin(cam->getRotation().X * M_PI / 180.0f) * 50.0f,
+		       cos(cam->getRotation().Y * M_PI / 180.0f) * cos(cam->getRotation().X * M_PI / 180.0f) * 50.0f);
+
+		btCollisionWorld::ClosestRayResultCallback res(btFrom, btTo);
+
+		world->rayTest(btFrom, btTo, res); // m_btWorld is btDiscreteDynamicsWorld
+
+		if(res.hasHit()){
+		    printf("Collision at: <%.2f, %.2f, %.2f>\n", res.m_hitPointWorld.getX(), res.m_hitPointWorld.getY(), res.m_hitPointWorld.getZ());
+		}
+
+
 		break;
 	    }
 	}
@@ -124,11 +139,6 @@ int main() {
     
     while(!done) {
 
-	btVector3 btFrom(cam->getPosition().X, cam->getPosition().Y, cam->getPosition().Z);
-	btVector3 btTo(sin(cam->getRotation().Y * M_PI / 180.0f) * cos(cam->getRotation().X * M_PI / 180.0f) * 50.0f,
-		       -1 * sin(cam->getRotation().X * M_PI / 180.0f) * 50.0f,
-		       cos(cam->getRotation().Y * M_PI / 180.0f) * cos(cam->getRotation().X * M_PI / 180.0f) * 50.0f);
-
 	deltaTime = timer->getTime() - timeStamp;
 	timeStamp = timer->getTime();
 
@@ -136,14 +146,6 @@ int main() {
 
 	driver->beginScene(true, true, irr::video::SColor(255, 20, 0, 0));
 	smgr->drawAll();
-
-	btCollisionWorld::ClosestRayResultCallback res(btFrom, btTo);
-
-	world->rayTest(btFrom, btTo, res); // m_btWorld is btDiscreteDynamicsWorld
-
-	if(res.hasHit()){
-	    printf("Collision at: <%.2f, %.2f, %.2f>\n", res.m_hitPointWorld.getX(), res.m_hitPointWorld.getY(), res.m_hitPointWorld.getZ());
-	}
 
 	irr::video::SMaterial m;
 	m.Lighting=false;
@@ -155,9 +157,8 @@ int main() {
 		       cos(cam->getRotation().Y * M_PI / 180.0f) * cos(cam->getRotation().X * M_PI / 180.0f) * 50.0f);
 
 
-
 	driver->draw3DLine(pls,
-			   cam->getPosition() + irr::core::vector3df(.01, .01, 0),
+			   cam->getPosition() + irr::core::vector3df(.1, .1, 0),
 			   irr::video::SColor(255, 0, 0, 255));
 
 	guienv->drawAll();
