@@ -145,13 +145,22 @@ int main() {
 	    printf("Collision at: <%.2f, %.2f, %.2f>\n", res.m_hitPointWorld.getX(), res.m_hitPointWorld.getY(), res.m_hitPointWorld.getZ());
 	}
 
+	/*
+	driver->draw3DLine(irr::core::vector3df(btFrom.getX(), btFrom.getY(), btFrom.getZ()),
+			   irr::core::vector3df(btFrom.getX(),
+						btFrom.getY(),
+						btFrom.getZ()+ 10),
+			   irr::video::SColor(255, 0, 0, 0));
+	*/
 
-	//driver->draw3DLine(irr::core::vector3df(btFrom.getX(), btFrom.getY(), btFrom.getZ()),
-			   //irr::core::vector3df(btFrom.getX(),
-						//btFrom.getY(),
-						//btFrom.getZ() + 1000),
-			   //irr::video::SColor(255, 0, 0, 0));
-    driver->draw3DLine(irr::core::vector3df(10.0f, 10.0f, 10.0f), irr::core::vector3df(15.0f, 15.0f, 15.0f));
+	irr::video::SMaterial m;
+	m.Lighting=false;
+	driver->setMaterial(m);
+	driver->setTransform(irr::video::ETS_WORLD, irr::core::matrix4());
+
+	driver->draw3DLine(irr::core::vector3df(cam->getPosition().X, cam->getPosition().Y, 0),
+			   irr::core::vector3df(cam->getPosition().X, 500, 0),
+			   irr::video::SColor(255, 255, 255, 0));
 
 	guienv->drawAll();
 	driver->endScene();
