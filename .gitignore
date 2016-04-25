@@ -1,0 +1,11 @@
+# Ignore CMake generated files
+01/build/
+01/bin/
+
+02/build/
+02/bin/
+notes.txt
+LessonPlans.txt
+
+# Ignore temporary edit files
+*~

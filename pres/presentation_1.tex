@@ -1,0 +1,148 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer Presentation
+% LaTeX Template
+% Version 1.0 (10/11/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass{beamer}
+
+\mode<presentation> {
+
+% The Beamer class comes with a number of default slide themes
+% which change the colors and layouts of slides. Below this is a list
+% of all the themes, uncomment each in turn to see what they look like.
+
+%\usetheme{default}
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Berlin}
+%\usetheme{Boadilla}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{Dresden}
+%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+
+% As well as themes, the Beamer class has a number of color themes
+% for any slide theme. Uncomment each of these in turn to see how it
+% changes the colors of your current slide theme.
+
+%\usecolortheme{albatross}
+%\usecolortheme{beaver}
+%\usecolortheme{beetle}
+\usecolortheme{crane}
+%\usecolortheme{dolphin}
+%\usecolortheme{dove}
+%\usecolortheme{fly}
+%\usecolortheme{lily}
+%\usecolortheme{orchid}
+%\usecolortheme{rose}
+%\usecolortheme{seagull}
+%\usecolortheme{seahorse}
+%\usecolortheme{whale}
+%\usecolortheme{wolverine}
+
+%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
+%\setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
+
+%\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+}
+
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title[Bullet Tutorials]{Bullet Tutorials} % The short title appears at the bottom of every slide, the full title is only on the title page
+
+\author{Brigham Keys} % Your name
+\institute[Collective Tyranny] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
+{
+Collective Tyranny
+\medskip
+\textit{bkeys@bkeys.org} % Your email address
+}
+\date{\today} % Date, can be changed to a custom date
+
+\begin{document}
+
+\begin{frame}
+\titlepage % Print the title page as the first slide
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{What you need}
+\begin{itemize}
+\item A C++ project set up that can compile code that uses Bullet, and the Irrlicht 3D engine
+\item Intermediate knowledge of C++, and the Irrlicht Engine
+\end{itemize}
+Tutorials about Irrlicht can be found at http://irrlicht.sourceforge.net/docu/example001.html and for people who like video tutorials https://www.youtube.com/watch?v=brAaoNhK4Mk.
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{About Bullet Physics}
+\begin{itemize}
+\item 3D physics engine, handles physics dynamics as well as collision
+\item Agnostic of all 3D graphics engines, many bindings made for other languages
+\item Very advanced and customizable, many settings are available for almost all objects
+\item Very poor documentation, it is very difficult to find a comprehensive source of examples or tutorials; especially for those who are inexperienced
+\item Under the MIT license, so it can be used for all purposes including commercial purposes
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Tools used to make this tutorial series}
+The libraries used in this series are: Irrlicht and Bullet physics, it is implied that you are in an environment where you can build using both of these libraries.
+\begin{itemize}
+\item Irrlicht - 3D rendering and event handling
+\item Bullet - Physics simulation
+\item CMake - Cross platform build system
+\item Emacs - Text editor
+\item Doxygen - Documentation generation
+\item gtk-recordmyscreen - Desktop recording
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\end{document} 

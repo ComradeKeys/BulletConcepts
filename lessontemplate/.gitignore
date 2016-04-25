@@ -1,0 +1,12 @@
+# Ignore CMake generated files
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+CMakeFiles/
+notes.txt
+
+# Ignore the binary directory
+bin/
+
+# Ignore temporary edit files
+*~
