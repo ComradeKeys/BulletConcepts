@@ -1,0 +1,3 @@
+Things still needed to go over:
+A collision callback so our laser can knock over objects, this allows linear velocity to be taught at the same time. The next example we could rebuild with constructioninfo, create a ramp and show how friction works.
+We need to fix the math for the laser sight, although the raycast seems to be fine so it is unknown if the math is actually incorrect

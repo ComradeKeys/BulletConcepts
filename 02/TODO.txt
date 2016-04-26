@@ -1,0 +1,2 @@
+We should add a cone, and a capsule to the shapes that we are making (this might warrant the shape spawning functions be in their own file)
+Adding something a bit more custom like a ramp would be awesome as well, it will be useful to demonstrate friction
