@@ -1,3 +1,10 @@
-Things still needed to go over:
+Lesson01:
+The Func.* could probably use a more descriptive name
+
+Lesson02:
+We should add a cone, and a capsule to the shapes that we are making (this might warrant the shape spawning functions be in their own file)
+Adding something a bit more custom like a ramp would be awesome as well, it will be useful to demonstrate friction
+
+Lesson03:
 A collision callback so our laser can knock over objects, this allows linear velocity to be taught at the same time. The next example we could rebuild with constructioninfo, create a ramp and show how friction works.
 We need to fix the math for the laser sight, although the raycast seems to be fine so it is unknown if the math is actually incorrect

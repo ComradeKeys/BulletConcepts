@@ -1,1 +1,0 @@
-The Func.* could probably use a more descriptive name

@@ -1,9 +1,11 @@
 # Ignore CMake generated files
 01/build/
 01/bin/
-
 02/build/
 02/bin/
+03/build/
+03/bin/
+
 notes.txt
 LessonPlans.txt
 
