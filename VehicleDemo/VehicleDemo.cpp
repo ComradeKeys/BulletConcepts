@@ -346,7 +346,7 @@ const float TRIANGLE_SIZE=20.f;
 
 	
 		bool isFrontWheel=true;
-
+   
 		//choose coordinate system
 		m_vehicle->setCoordinateSystem(rightIndex,upIndex,forwardIndex);
 
