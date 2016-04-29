@@ -22,12 +22,9 @@ class btCollisionShape;
 #include <BulletDynamics/Vehicle/btRaycastVehicle.h>
 #include <btBulletDynamicsCommon.h>
 #include <bullet/LinearMath/btQuickprof.h>
-//#include "GlutDemoApplication.h"
-
 
 ///VehicleDemo shows how to setup and use the built-in raycast vehicle
-class VehicleDemo// : public GlutDemoApplication
-{
+class VehicleDemo {
 	public:
 
 	btRigidBody* m_carChassis;
