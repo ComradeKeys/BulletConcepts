@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.11)
-project(vehicle)
+project(example04)
 
 if(CMAKE_BUILD_TYPE STREQUAL "")
   set(CMAKE_BUILD_TYPE Debug)

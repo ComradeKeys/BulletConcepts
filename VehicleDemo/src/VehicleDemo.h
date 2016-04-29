@@ -12,19 +12,21 @@ subject to the following restrictions:
 2. Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.
 3. This notice may not be removed or altered from any source distribution.
 */
-#ifndef VEHICLE_DEMO_H
-#define VEHICLE_DEMO_H
+#pragma once
 
 class btVehicleTuning;
 struct btVehicleRaycaster;
 class btCollisionShape;
 
-#include "BulletDynamics/Vehicle/btRaycastVehicle.h"
+#include <BulletDynamics/Vehicle/btRaycastVehicle.h>
+#include <BulletDynamics/Vehicle/btRaycastVehicle.h>
+#include <btBulletDynamicsCommon.h>
+#include <bullet/LinearMath/btQuickprof.h>
+//#include "GlutDemoApplication.h"
 
-#include "GlutDemoApplication.h"
 
 ///VehicleDemo shows how to setup and use the built-in raycast vehicle
-class VehicleDemo : public GlutDemoApplication
+class VehicleDemo// : public GlutDemoApplication
 {
 	public:
 
@@ -64,19 +66,8 @@ class VehicleDemo : public GlutDemoApplication
 
 	virtual void	clientResetScene();
 
-	virtual void displayCallback();
-	
-	///a very basic camera following the vehicle
-	virtual void updateCamera();
-
-	virtual void specialKeyboard(int key, int x, int y);
-
-	virtual void specialKeyboardUp(int key, int x, int y);
-
-	void renderme();
-
 	void initPhysics();
-
+	/*
 	static DemoApplication* Create()
 	{
 		VehicleDemo* demo = new VehicleDemo();
@@ -84,8 +75,7 @@ class VehicleDemo : public GlutDemoApplication
 		demo->initPhysics();
 		return demo;
 	}
+	*/
 };
-
-#endif //VEHICLE_DEMO_H
 
 

@@ -18,8 +18,8 @@ subject to the following restrictions:
 /// One todo is a basic engine model:
 /// A function that maps user input (throttle) into torque/force applied on the wheels
 /// with gears etc.
-#include "btBulletDynamicsCommon.h"
-#include "BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h"
+#include <btBulletDynamicsCommon.h>
+#include <BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h>
 
 //
 // By default, Bullet Vehicle uses Y as up axis.
@@ -27,26 +27,38 @@ subject to the following restrictions:
 //#define FORCE_ZAXIS_UP 1
 //
 
-#ifdef FORCE_ZAXIS_UP
-		int rightIndex = 0; 
-		int upIndex = 2; 
-		int forwardIndex = 1;
-		btVector3 wheelDirectionCS0(0,0,-1);
-		btVector3 wheelAxleCS(1,0,0);
-#else
-		int rightIndex = 0;
-		int upIndex = 1;
-		int forwardIndex = 2;
-		btVector3 wheelDirectionCS0(0,-1,0);
-		btVector3 wheelAxleCS(-1,0,0);
-#endif
 
-#include "GLDebugDrawer.h"
+
+
+btDiscreteDynamicsWorld *m_dynamicsWorld;
+
+btRigidBody* localCreateRigidBody(btScalar mass,const btTransform& startTrans,btCollisionShape* colShape);
+btRigidBody* localCreateRigidBody(btScalar mass,const btTransform& startTrans,btCollisionShape* colShape) {
+  btVector3 inertia(0,0,0);
+  if (mass)
+    colShape->calculateLocalInertia(mass,inertia);
+  btRigidBody::btRigidBodyConstructionInfo rbci(mass,0,colShape,inertia);
+  rbci.m_startWorldTransform = startTrans;
+
+  btRigidBody* body = new btRigidBody(rbci);
+  m_dynamicsWorld->addRigidBody(body);
+  return body;
+
+}
+
+
+
+
+
+int rightIndex = 0;
+int upIndex = 1;
+int forwardIndex = 2;
+btVector3 wheelDirectionCS0(0,-1,0);
+btVector3 wheelAxleCS(-1,0,0);
+
 #include <stdio.h> //printf debugging
+#include <stdlib.h>
 
-#include "GL_ShapeDrawer.h"
-
-#include "GlutStuff.h"
 #include "VehicleDemo.h"
 
 const int maxProxies = 32766;
@@ -62,12 +74,12 @@ float	maxEngineForce = 1000.f;//this should be engine/velocity dependent
 float	maxBreakingForce = 100.f;
 
 float	gVehicleSteering = 0.f;
-float	steeringIncrement = 0.4f;
+float	steeringIncrement = 0.04f;
 float	steeringClamp = 0.3f;
-float	wheelRadius = 0.75f;
+float	wheelRadius = 0.5f;
 float	wheelWidth = 0.4f;
 float	wheelFriction = 1000;//BT_LARGE_FLOAT;
-float	suspensionStiffness = 20.0f;
+float	suspensionStiffness = 20.f;
 float	suspensionDamping = 2.3f;
 float	suspensionCompression = 4.4f;
 float	rollInfluence = 0.1f;//1.0f;
@@ -88,14 +100,10 @@ VehicleDemo::VehicleDemo()
 :
 m_carChassis(0),
 m_indexVertexArrays(0),
-m_vertices(0),
-m_cameraHeight(4.f),
-m_minCameraDistance(3.f),
-m_maxCameraDistance(10.f)
+m_vertices(0)
 {
 	m_vehicle = 0;
 	m_wheelShape = 0;
-	m_cameraPosition = btVector3(30,30,30);
 }
 
 VehicleDemo::~VehicleDemo()
@@ -151,11 +159,6 @@ VehicleDemo::~VehicleDemo()
 void VehicleDemo::initPhysics()
 {
 	
-#ifdef FORCE_ZAXIS_UP
-	m_cameraUp = btVector3(0,0,1);
-	m_forwardAxis = 1;
-#endif
-
 	btCollisionShape* groundShape = new btBoxShape(btVector3(50,3,50));
 	m_collisionShapes.push_back(groundShape);
 	m_collisionConfiguration = new btDefaultCollisionConfiguration();
@@ -165,9 +168,6 @@ void VehicleDemo::initPhysics()
 	m_overlappingPairCache = new btAxisSweep3(worldMin,worldMax);
 	m_constraintSolver = new btSequentialImpulseConstraintSolver();
 	m_dynamicsWorld = new btDiscreteDynamicsWorld(m_dispatcher,m_overlappingPairCache,m_constraintSolver,m_collisionConfiguration);
-#ifdef FORCE_ZAXIS_UP
-	m_dynamicsWorld->setGravity(btVector3(0,0,-10));
-#endif 
 
 	//m_dynamicsWorld->setGravity(btVector3(0,0,0));
 btTransform tr;
@@ -202,20 +202,10 @@ const float TRIANGLE_SIZE=20.f;
 			float wl = .2f;
 			//height set to zero, but can also use curved landscape, just uncomment out the code
 			float height = 0.f;//20.f*sinf(float(i)*wl)*cosf(float(j)*wl);
-#ifdef FORCE_ZAXIS_UP
-			m_vertices[i+j*NUM_VERTS_X].setValue(
-				(i-NUM_VERTS_X*0.5f)*TRIANGLE_SIZE,
-				(j-NUM_VERTS_Y*0.5f)*TRIANGLE_SIZE,
-				height
-				);
-
-#else
 			m_vertices[i+j*NUM_VERTS_X].setValue(
 				(i-NUM_VERTS_X*0.5f)*TRIANGLE_SIZE,
 				height,
 				(j-NUM_VERTS_Y*0.5f)*TRIANGLE_SIZE);
-#endif
-
 		}
 	}
 
@@ -298,17 +288,6 @@ const float TRIANGLE_SIZE=20.f;
 	//create ground object
 	localCreateRigidBody(0,tr,groundShape);
 
-#ifdef FORCE_ZAXIS_UP
-//   indexRightAxis = 0; 
-//   indexUpAxis = 2; 
-//   indexForwardAxis = 1; 
-	btCollisionShape* chassisShape = new btBoxShape(btVector3(1.f,2.f, 0.5f));
-	btCompoundShape* compound = new btCompoundShape();
-	btTransform localTrans;
-	localTrans.setIdentity();
-	//localTrans effectively shifts the center of mass with respect to the chassis
-	localTrans.setOrigin(btVector3(0,0,1));
-#else
 	btCollisionShape* chassisShape = new btBoxShape(btVector3(1.f,0.5f,2.f));
 	m_collisionShapes.push_back(chassisShape);
 
@@ -318,7 +297,6 @@ const float TRIANGLE_SIZE=20.f;
 	localTrans.setIdentity();
 	//localTrans effectively shifts the center of mass with respect to the chassis
 	localTrans.setOrigin(btVector3(0,1,0));
-#endif
 
 	compound->addChildShape(localTrans,chassisShape);
 
@@ -346,36 +324,25 @@ const float TRIANGLE_SIZE=20.f;
 
 	
 		bool isFrontWheel=true;
-   
+
 		//choose coordinate system
 		m_vehicle->setCoordinateSystem(rightIndex,upIndex,forwardIndex);
 
-#ifdef FORCE_ZAXIS_UP
-		btVector3 connectionPointCS0(CUBE_HALF_EXTENTS-(0.3*wheelWidth),2*CUBE_HALF_EXTENTS-wheelRadius, connectionHeight);
-#else
 		btVector3 connectionPointCS0(CUBE_HALF_EXTENTS-(0.3*wheelWidth),connectionHeight,2*CUBE_HALF_EXTENTS-wheelRadius);
-#endif
 
 		m_vehicle->addWheel(connectionPointCS0,wheelDirectionCS0,wheelAxleCS,suspensionRestLength,wheelRadius,m_tuning,isFrontWheel);
-#ifdef FORCE_ZAXIS_UP
-		connectionPointCS0 = btVector3(-CUBE_HALF_EXTENTS+(0.3*wheelWidth),2*CUBE_HALF_EXTENTS-wheelRadius, connectionHeight);
-#else
+
 		connectionPointCS0 = btVector3(-CUBE_HALF_EXTENTS+(0.3*wheelWidth),connectionHeight,2*CUBE_HALF_EXTENTS-wheelRadius);
-#endif
 
 		m_vehicle->addWheel(connectionPointCS0,wheelDirectionCS0,wheelAxleCS,suspensionRestLength,wheelRadius,m_tuning,isFrontWheel);
-#ifdef FORCE_ZAXIS_UP
-		connectionPointCS0 = btVector3(-CUBE_HALF_EXTENTS+(0.3*wheelWidth),-2*CUBE_HALF_EXTENTS+wheelRadius, connectionHeight);
-#else
+
 		connectionPointCS0 = btVector3(-CUBE_HALF_EXTENTS+(0.3*wheelWidth),connectionHeight,-2*CUBE_HALF_EXTENTS+wheelRadius);
-#endif //FORCE_ZAXIS_UP
+
 		isFrontWheel = false;
 		m_vehicle->addWheel(connectionPointCS0,wheelDirectionCS0,wheelAxleCS,suspensionRestLength,wheelRadius,m_tuning,isFrontWheel);
-#ifdef FORCE_ZAXIS_UP
-		connectionPointCS0 = btVector3(CUBE_HALF_EXTENTS-(0.3*wheelWidth),-2*CUBE_HALF_EXTENTS+wheelRadius, connectionHeight);
-#else
+
 		connectionPointCS0 = btVector3(CUBE_HALF_EXTENTS-(0.3*wheelWidth),connectionHeight,-2*CUBE_HALF_EXTENTS+wheelRadius);
-#endif
+
 		m_vehicle->addWheel(connectionPointCS0,wheelDirectionCS0,wheelAxleCS,suspensionRestLength,wheelRadius,m_tuning,isFrontWheel);
 		
 		for (int i=0;i<m_vehicle->getNumWheels();i++)
@@ -389,48 +356,12 @@ const float TRIANGLE_SIZE=20.f;
 		}
 	}
 
-	
-	setCameraDistance(26.f);
-
 }
 
-
-//to be implemented by the demo
-void VehicleDemo::renderme()
-{
-	
-	updateCamera();
-
-	btScalar m[16];
-	int i;
-
-
-	btVector3 wheelColor(1,0,0);
-
-	btVector3	worldBoundsMin,worldBoundsMax;
-	getDynamicsWorld()->getBroadphase()->getBroadphaseAabb(worldBoundsMin,worldBoundsMax);
-
-
-
-	for (i=0;i<m_vehicle->getNumWheels();i++)
-	{
-		//synchronize the wheels with the (interpolated) chassis worldtransform
-		m_vehicle->updateWheelTransform(i,true);
-		//draw wheels (cylinders)
-		m_vehicle->getWheelInfo(i).m_worldTransform.getOpenGLMatrix(m);
-		m_shapeDrawer->drawOpenGL(m,m_wheelShape,wheelColor,getDebugMode(),worldBoundsMin,worldBoundsMax);
-	}
-
-
-	DemoApplication::renderme();
-
-}
 
 void VehicleDemo::clientMoveAndDisplay()
 {
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
-
+    printf("%f\n", m_carChassis->getLinearVelocity().getY());
 	
 	{			
 		int wheelIndex = 2;
@@ -449,81 +380,20 @@ void VehicleDemo::clientMoveAndDisplay()
 	}
 
 
-	float dt = getDeltaTimeMicroseconds() * 0.000001f;
+	//	float dt = getDeltaTimeMicroseconds() * 0.000001f;
+	float dt = 0.000002f;
 	
 	if (m_dynamicsWorld)
 	{
+	    bool m_idle = false;
 		//during idle mode, just run 1 simulation step maximum
 		int maxSimSubSteps = m_idle ? 1 : 2;
 		if (m_idle)
 			dt = 1.0/420.f;
 
 		int numSimSteps = m_dynamicsWorld->stepSimulation(dt,maxSimSubSteps);
-		
-
-//#define VERBOSE_FEEDBACK
-#ifdef VERBOSE_FEEDBACK
-		if (!numSimSteps)
-			printf("Interpolated transforms\n");
-		else
-		{
-			if (numSimSteps > maxSimSubSteps)
-			{
-				//detect dropping frames
-				printf("Dropped (%i) simulation steps out of %i\n",numSimSteps - maxSimSubSteps,numSimSteps);
-			} else
-			{
-				printf("Simulated (%i) steps\n",numSimSteps);
-			}
-		}
-#endif //VERBOSE_FEEDBACK
-
 	}
-
-	
-	
-
-
-
-
-#ifdef USE_QUICKPROF 
-        btProfiler::beginBlock("render"); 
-#endif //USE_QUICKPROF 
-
-
-	renderme(); 
-
-	//optional but useful: debug drawing
-	if (m_dynamicsWorld)
-		m_dynamicsWorld->debugDrawWorld();
-
-#ifdef USE_QUICKPROF 
-        btProfiler::endBlock("render"); 
-#endif 
-	
-
-	glFlush();
-	glutSwapBuffers();
-
 }
-
-
-
-void VehicleDemo::displayCallback(void) 
-{
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
-
-	renderme();
-
-//optional but useful: debug drawing
-	if (m_dynamicsWorld)
-		m_dynamicsWorld->debugDrawWorld();
-
-	glFlush();
-	glutSwapBuffers();
-}
-
-
 
 void VehicleDemo::clientResetScene()
 {
@@ -531,7 +401,7 @@ void VehicleDemo::clientResetScene()
 	m_carChassis->setCenterOfMassTransform(btTransform::getIdentity());
 	m_carChassis->setLinearVelocity(btVector3(0,0,0));
 	m_carChassis->setAngularVelocity(btVector3(0,0,0));
-	m_dynamicsWorld->getBroadphase()->getOverlappingPairCache()->cleanProxyFromPairs(m_carChassis->getBroadphaseHandle(),getDynamicsWorld()->getDispatcher());
+	m_dynamicsWorld->getBroadphase()->getOverlappingPairCache()->cleanProxyFromPairs(m_carChassis->getBroadphaseHandle(),m_dynamicsWorld->getDispatcher());
 	if (m_vehicle)
 	{
 		m_vehicle->resetSuspension();
@@ -543,129 +413,3 @@ void VehicleDemo::clientResetScene()
 	}
 
 }
-
-
-
-void VehicleDemo::specialKeyboardUp(int key, int x, int y)
-{
-   switch (key) 
-    {
-    case GLUT_KEY_UP :
-		{
-			gEngineForce = 0.f;
-		break;
-		}
-	case GLUT_KEY_DOWN :
-		{			
-			gBreakingForce = 0.f; 
-		break;
-		}
-	default:
-		DemoApplication::specialKeyboardUp(key,x,y);
-        break;
-    }
-
-}
-
-
-void VehicleDemo::specialKeyboard(int key, int x, int y)
-{
-
-//	printf("key = %i x=%i y=%i\n",key,x,y);
-
-    switch (key) 
-    {
-    case GLUT_KEY_LEFT : 
-		{
-			gVehicleSteering += steeringIncrement;
-			if (	gVehicleSteering > steeringClamp)
-					gVehicleSteering = steeringClamp;
-
-		break;
-		}
-    case GLUT_KEY_RIGHT : 
-		{
-			gVehicleSteering -= steeringIncrement;
-			if (	gVehicleSteering < -steeringClamp)
-					gVehicleSteering = -steeringClamp;
-
-		break;
-		}
-    case GLUT_KEY_UP :
-		{
-			gEngineForce = maxEngineForce;
-			gBreakingForce = 0.f;
-		break;
-		}
-	case GLUT_KEY_DOWN :
-		{			
-			gBreakingForce = maxBreakingForce; 
-			gEngineForce = 0.f;
-		break;
-		}
-	default:
-		DemoApplication::specialKeyboard(key,x,y);
-        break;
-    }
-
-//	glutPostRedisplay();
-
-
-}
-
-
-
-void	VehicleDemo::updateCamera()
-{
-	
-//#define DISABLE_CAMERA 1
-#ifdef DISABLE_CAMERA
-	DemoApplication::updateCamera();
-	return;
-#endif //DISABLE_CAMERA
-
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-
-	btTransform chassisWorldTrans;
-
-	//look at the vehicle
-	m_carChassis->getMotionState()->getWorldTransform(chassisWorldTrans);
-	m_cameraTargetPosition = chassisWorldTrans.getOrigin();
-
-	//interpolate the camera height
-#ifdef FORCE_ZAXIS_UP
-	m_cameraPosition[2] = (15.0*m_cameraPosition[2] + m_cameraTargetPosition[2] + m_cameraHeight)/16.0;
-#else
-	m_cameraPosition[1] = (15.0*m_cameraPosition[1] + m_cameraTargetPosition[1] + m_cameraHeight)/16.0;
-#endif 
-
-	btVector3 camToObject = m_cameraTargetPosition - m_cameraPosition;
-
-	//keep distance between min and max distance
-	float cameraDistance = camToObject.length();
-	float correctionFactor = 0.f;
-	if (cameraDistance < m_minCameraDistance)
-	{
-		correctionFactor = 0.15*(m_minCameraDistance-cameraDistance)/cameraDistance;
-	}
-	if (cameraDistance > m_maxCameraDistance)
-	{
-		correctionFactor = 0.15*(m_maxCameraDistance-cameraDistance)/cameraDistance;
-	}
-	m_cameraPosition -= correctionFactor*camToObject;
-	
-	  btScalar aspect = m_glutScreenWidth / (btScalar)m_glutScreenHeight;
-        glFrustum (-aspect, aspect, -1.0, 1.0, 1.0, 10000.0);
-
-         glMatrixMode(GL_MODELVIEW);
-         glLoadIdentity();
-
-    gluLookAt(m_cameraPosition[0],m_cameraPosition[1],m_cameraPosition[2],
-                      m_cameraTargetPosition[0],m_cameraTargetPosition[1], m_cameraTargetPosition[2],
-                          m_cameraUp.getX(),m_cameraUp.getY(),m_cameraUp.getZ());
-
-
-
-}
-
