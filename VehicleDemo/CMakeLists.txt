@@ -6,6 +6,8 @@ if(CMAKE_BUILD_TYPE STREQUAL "")
     set(CMAKE_BUILD_TYPE Debug)
 endif()
 
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake_modules)
+
 # Making the compiler as strict as possible
 set(CMAKE_CXX_FLAGS " -std=c++14 -g -pedantic-errors -Werror -Wextra -Wpedantic -Winit-self -Wmissing-declarations -Wuninitialized -Woverloaded-virtual -Wfatal-errors -O3 -Wno-deprecated-declarations")
 add_definitions(${CMAKE_CXX_FLAGS})
