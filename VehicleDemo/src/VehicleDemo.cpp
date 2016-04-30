@@ -30,20 +30,83 @@ subject to the following restrictions:
 #include "Globals.hpp"
 #include "Func.hpp"
 
+btRigidBody *localCreateRigidBody(const btVector3 &tPosition, const irr::core::vector3df &tScale, const btScalar &tMass, btCollisionShape *colShape, btTransform startTrans);
+btRigidBody *localCreateRigidBody(const btVector3 &tPosition, const irr::core::vector3df &tScale, const btScalar &tMass, btCollisionShape *colShape, btTransform startTrans) {
+
+
+    /*
+    btVector3 inertia(0,0,0);
+    if (mass)
+	colShape->calculateLocalInertia(mass,inertia);
+    btRigidBody::btRigidBodyConstructionInfo rbci(mass,0,colShape,inertia);
+    rbci.m_startWorldTransform = startTrans;
+
+    btRigidBody* body = new btRigidBody(rbci);
+
+    // Add it to the world
+    world->addRigidBody(body);
+    return body;
+     */
+    //Visualisation for the rigid body
+    irr::scene::ISceneNode *node = smgr->addCubeSceneNode(1.0f);
+    node->setScale(tScale);
+    node->setMaterialFlag(irr::video::EMF_LIGHTING, 1);
+    node->setMaterialFlag(irr::video::EMF_NORMALIZE_NORMALS, true);
+    node->setMaterialTexture(0, driver->getTexture("assets/cube.png"));
+
+    // Set initial position of the cube
+    btTransform transform;
+    transform.setIdentity();
+    transform.setOrigin(tPosition);
+
+    btVector3 inertia(0,0,0);
+    if (tMass)
+	colShape->calculateLocalInertia(tMass,inertia);
+    btRigidBody::btRigidBodyConstructionInfo rbci(tMass,0,colShape,inertia);
+    rbci.m_startWorldTransform = startTrans;
+
+    btRigidBody* rigidBody = new btRigidBody(rbci);
+
+    /*
+    // Shape of the rigid body
+    btVector3 HalfExtents(tScale.X * 0.5f, tScale.Y * 0.5f, tScale.Z * 0.5f);
+    btCollisionShape *Shape = new btBoxShape(HalfExtents);
+
+    // Specify the mass, use it to calculate the local inertia
+    btVector3 LocalInertia;
+    Shape->calculateLocalInertia(tMass, LocalInertia);
+    btRigidBody::btRigidBodyConstructionInfo info(tMass, MotionState, Shape, LocalInertia);
+
+    // Create the rigid body object
+    btRigidBody *rigidBody = new btRigidBody(info);
+    */
+
+    // Store a pointer to the irrlicht node so we can update it later
+    rigidBody->setUserPointer((void *)(node));
+
+    // Add it to the world
+    world->addRigidBody(rigidBody);
+    worldObjs.push_back(rigidBody);
+    return rigidBody;
+}
+
+/*
 btRigidBody* localCreateRigidBody(btScalar mass,const btTransform& startTrans,btCollisionShape* colShape);
 btRigidBody* localCreateRigidBody(btScalar mass,const btTransform& startTrans,btCollisionShape* colShape) {
 
-  btVector3 inertia(0,0,0);
-  if (mass)
-    colShape->calculateLocalInertia(mass,inertia);
-  btRigidBody::btRigidBodyConstructionInfo rbci(mass,0,colShape,inertia);
-  rbci.m_startWorldTransform = startTrans;
+    btVector3 inertia(0,0,0);
+    if (mass)
+	colShape->calculateLocalInertia(mass,inertia);
+    btRigidBody::btRigidBodyConstructionInfo rbci(mass,0,colShape,inertia);
+    rbci.m_startWorldTransform = startTrans;
 
-  btRigidBody* body = new btRigidBody(rbci);
-  world->addRigidBody(body);
-  return body;
+    btRigidBody* body = new btRigidBody(rbci);
 
+    // Add it to the world
+    world->addRigidBody(body);
+    return body;
 }
+*/
 
 int rightIndex = 0;
 int upIndex = 1;
@@ -79,7 +142,6 @@ float	suspensionDamping = 2.3f;
 float	suspensionCompression = 4.4f;
 float	rollInfluence = 0.1f;//1.0f;
 
-
 btScalar suspensionRestLength(0.6);
 
 #define CUBE_HALF_EXTENTS 1
@@ -94,6 +156,7 @@ m_vertices(0)
 {
 	m_vehicle = 0;
 	m_wheelShape = 0;
+	//	gEngineForce = 1000;
 }
 
 VehicleDemo::~VehicleDemo()
@@ -155,8 +218,10 @@ tr.setIdentity();
 
 	tr.setOrigin(btVector3(0,0.f,0));
 
-	m_carChassis = localCreateRigidBody(800,tr,compound);//chassisShape);
+	m_carChassis = localCreateRigidBody(btVector3(0, 1, 0), irr::core::vector3df(1, 1, 1), 800, chassisShape, localTrans);//,tr,compound);//chassisShape);
+
  	createBox(btVector3(0, 4.5, 0), irr::core::vector3df(1.0f, 1.0f, 1.0f), 800, "assets/cube.png");
+ 	createBox(btVector3(2, 4.5, 0), irr::core::vector3df(1.0f, 1.0f, 1.0f), 800, "assets/cube.png");
 	//m_carChassis->setDamping(0.2,0.2);
 	
 	m_wheelShape = new btCylinderShapeX(btVector3(wheelWidth,wheelRadius,wheelRadius));

@@ -29,4 +29,4 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
   ${BULLET_LIBRARIES}
   )
 
-file(COPY ../assets DESTINATION ${CMAKE_SOURCE_DIR}/bin)
+file(COPY ../assets DESTINATION ${CMAKE_SOURCE_DIR})
