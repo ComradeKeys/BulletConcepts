@@ -1,35 +1,32 @@
 cmake_minimum_required(VERSION 2.8.11)
-project(vehicledemo)
+project(example04)
 
-# Enable debug symbols by default
 if(CMAKE_BUILD_TYPE STREQUAL "")
-    set(CMAKE_BUILD_TYPE Debug)
+  set(CMAKE_BUILD_TYPE Debug)
 endif()
 
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake_modules)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-# Making the compiler as strict as possible
-set(CMAKE_CXX_FLAGS " -std=c++14 -g -pedantic-errors -Werror -Wextra -Wpedantic -Winit-self -Wmissing-declarations -Wuninitialized -Woverloaded-virtual -Wfatal-errors -O3 -Wno-deprecated-declarations")
+set(CMAKE_CXX_FLAGS " -std=c++14 -g -pedantic-errors -Werror -Wextra -Wpedantic -Winit-self -Wmissing-declarations -Wuninitialized -Woverloaded-virtual -Wfatal-errors -O3 -Wno-overloaded-virtual")
 add_definitions(${CMAKE_CXX_FLAGS})
 
-# Locate and require Irrlicht
+file(GLOB SOURCE src/*.cpp src/*.hpp)
+
 find_package(Irrlicht REQUIRED)
 find_package(Bullet REQUIRED)
 
-# Location of source files
-file(GLOB SOURCE src/*.cpp src/*.hpp)
-
-# Specify include directories
 include_directories(
-    ${IRRLICHT_INCLUDE_DIR}
-    ${BULLET_INCLUDE_DIRS}
-    )
+  ${IRRLICHT_INCLUDE_DIR}
+  ${BULLET_INCLUDE_DIRS}
+  )
 
-# Create the binary
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCE})
 
-# Link libraries
 target_link_libraries(${CMAKE_PROJECT_NAME}
-    ${IRRLICHT_LIBRARY}
-    ${BULLET_LIBRARIES}
-    )
+  ${IRRLICHT_LIBRARY}
+  ${BULLET_LIBRARIES}
+  )
+
+file(COPY ../assets DESTINATION ${CMAKE_SOURCE_DIR}/bin)
