@@ -1,31 +1,33 @@
-# This is basically the overall name of the project in Visual Studio this is the name of the Solution File
+cmake_minimum_required(VERSION 2.8.11)
+project(vehicledemo)
 
+# Enable debug symbols by default
+if(CMAKE_BUILD_TYPE STREQUAL "")
+    set(CMAKE_BUILD_TYPE Debug)
+endif()
 
-# For every executable you have with a main method you should have an add_executable line below.
-# For every add executable line you should list every .cpp and .h file you have associated with that executable.  
+# Making the compiler as strict as possible
+set(CMAKE_CXX_FLAGS " -std=c++14 -g -pedantic-errors -Werror -Wextra -Wpedantic -Winit-self -Wmissing-declarations -Wuninitialized -Woverloaded-virtual -Wfatal-errors -O3 -Wno-deprecated-declarations")
+add_definitions(${CMAKE_CXX_FLAGS})
 
+# Locate and require Irrlicht
+find_package(Irrlicht REQUIRED)
+find_package(Bullet REQUIRED)
 
+# Location of source files
+file(GLOB SOURCE src/*.cpp src/*.hpp)
 
-# You shouldn't have to modify anything below this line 
-########################################################
+# Specify include directories
+include_directories(
+    ${IRRLICHT_INCLUDE_DIR}
+    ${BULLET_INCLUDE_DIRS}
+    )
 
+# Create the binary
+add_executable(${CMAKE_PROJECT_NAME} ${SOURCE})
 
-
-INCLUDE_DIRECTORIES(
-${BULLET_PHYSICS_SOURCE_DIR}/src ${BULLET_PHYSICS_SOURCE_DIR}/Demos/OpenGL 
-)
-
-LINK_LIBRARIES(
- OpenGLSupport  BulletDynamics BulletCollision LinearMath    ${GLUT_glut_LIBRARY} ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY}
-)
-
-ADD_EXECUTABLE(AppVehicleDemo
-	VehicleDemo.cpp
-	main.cpp
-)
-
-IF (INTERNAL_ADD_POSTFIX_EXECUTABLE_NAMES)
-			SET_TARGET_PROPERTIES(AppVehicleDemo PROPERTIES  DEBUG_POSTFIX "_Debug")
-			SET_TARGET_PROPERTIES(AppVehicleDemo PROPERTIES  MINSIZEREL_POSTFIX "_MinsizeRel")
-			SET_TARGET_PROPERTIES(AppVehicleDemo PROPERTIES  RELWITHDEBINFO_POSTFIX "_RelWithDebugInfo")
-ENDIF(INTERNAL_ADD_POSTFIX_EXECUTABLE_NAMES)
+# Link libraries
+target_link_libraries(${CMAKE_PROJECT_NAME}
+    ${IRRLICHT_LIBRARY}
+    ${BULLET_LIBRARIES}
+    )
