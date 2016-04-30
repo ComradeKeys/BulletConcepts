@@ -30,21 +30,31 @@ subject to the following restrictions:
 #include "Globals.hpp"
 #include "Func.hpp"
 
-btRigidBody* localCreateRigidBody(btScalar mass,const btTransform& startTrans,btCollisionShape* colShape);
-btRigidBody* localCreateRigidBody(btScalar mass,const btTransform& startTrans,btCollisionShape* colShape) {
+btRigidBody* localCreateRigidBody(btScalar mass, btTransform& startTrans,btCollisionShape* colShape);
+btRigidBody* localCreateRigidBody(btScalar mass, btTransform& startTrans,btCollisionShape* colShape) {
+
+    startTrans.setIdentity();
+    startTrans.setOrigin(btVector3(0, 3, 0));
+
+    irr::core::vector3df pos(startTrans.getOrigin().getX(),
+startTrans.getOrigin().getY(),
+startTrans.getOrigin().getZ());
 
     //Visualisation for the rigid body
     irr::scene::ISceneNode *node = smgr->addCubeSceneNode(1.0f);
+    node->setPosition(pos);
     node->setMaterialFlag(irr::video::EMF_LIGHTING, 1);
     node->setMaterialFlag(irr::video::EMF_NORMALIZE_NORMALS, true);
     node->setMaterialTexture(0, driver->getTexture("assets/cube.png"));
 
+    btDefaultMotionState *MotionState = new btDefaultMotionState(startTrans);
+
     btVector3 inertia(0,0,0);
     if(mass)
 	colShape->calculateLocalInertia(mass,inertia);
-    btRigidBody::btRigidBodyConstructionInfo rbci(mass,0,colShape,inertia);
-    rbci.m_startWorldTransform = startTrans;
 
+    btRigidBody::btRigidBodyConstructionInfo rbci(mass,MotionState,colShape,inertia);
+    rbci.m_startWorldTransform = startTrans;
 
     // Add it to the world
     btRigidBody* body = new btRigidBody(rbci);
