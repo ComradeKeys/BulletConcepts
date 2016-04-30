@@ -10,6 +10,14 @@
 VehicleDemo/build/
 VehicleDemo/bin/
 
+VehicleDemo/AppVehicleDemo
+VehicleDemo/cmake_install.cmake
+VehicleDemo/Makefile.am
+VehicleDemo/#VehicleDemo.cpp#
+VehicleDemo/CMakeFiles
+VehicleDemo/Makefile
+VehicleDemo/Makefile.in
+
 notes.txt
 LessonPlans.txt
 

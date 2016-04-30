@@ -1,32 +1,31 @@
-cmake_minimum_required(VERSION 2.8.11)
-project(example04)
+# This is basically the overall name of the project in Visual Studio this is the name of the Solution File
 
-if(CMAKE_BUILD_TYPE STREQUAL "")
-  set(CMAKE_BUILD_TYPE Debug)
-endif()
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake_modules)
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
+# For every executable you have with a main method you should have an add_executable line below.
+# For every add executable line you should list every .cpp and .h file you have associated with that executable.  
 
-set(CMAKE_CXX_FLAGS " -std=c++14 -g -pedantic-errors -Werror -Wextra -Wpedantic -Winit-self -Wmissing-declarations -Wuninitialized -Woverloaded-virtual -Wfatal-errors -O3 -Wno-overloaded-virtual")
-add_definitions(${CMAKE_CXX_FLAGS})
 
-file(GLOB SOURCE src/*.cpp src/*.hpp)
 
-find_package(Irrlicht REQUIRED)
-find_package(Bullet REQUIRED)
+# You shouldn't have to modify anything below this line 
+########################################################
 
-include_directories(
-  ${IRRLICHT_INCLUDE_DIR}
-  ${BULLET_INCLUDE_DIRS}
-  )
 
-add_executable(${CMAKE_PROJECT_NAME} ${SOURCE})
 
-target_link_libraries(${CMAKE_PROJECT_NAME}
-  ${IRRLICHT_LIBRARY}
-  ${BULLET_LIBRARIES}
-  )
+INCLUDE_DIRECTORIES(
+${BULLET_PHYSICS_SOURCE_DIR}/src ${BULLET_PHYSICS_SOURCE_DIR}/Demos/OpenGL 
+)
 
-file(COPY ../assets DESTINATION ${CMAKE_SOURCE_DIR})
+LINK_LIBRARIES(
+ OpenGLSupport  BulletDynamics BulletCollision LinearMath    ${GLUT_glut_LIBRARY} ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY}
+)
+
+ADD_EXECUTABLE(AppVehicleDemo
+	VehicleDemo.cpp
+	main.cpp
+)
+
+IF (INTERNAL_ADD_POSTFIX_EXECUTABLE_NAMES)
+			SET_TARGET_PROPERTIES(AppVehicleDemo PROPERTIES  DEBUG_POSTFIX "_Debug")
+			SET_TARGET_PROPERTIES(AppVehicleDemo PROPERTIES  MINSIZEREL_POSTFIX "_MinsizeRel")
+			SET_TARGET_PROPERTIES(AppVehicleDemo PROPERTIES  RELWITHDEBINFO_POSTFIX "_RelWithDebugInfo")
+ENDIF(INTERNAL_ADD_POSTFIX_EXECUTABLE_NAMES)
