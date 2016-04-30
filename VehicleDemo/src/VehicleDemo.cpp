@@ -33,15 +33,26 @@ subject to the following restrictions:
 btRigidBody* localCreateRigidBody(btScalar mass,const btTransform& startTrans,btCollisionShape* colShape);
 btRigidBody* localCreateRigidBody(btScalar mass,const btTransform& startTrans,btCollisionShape* colShape) {
 
-  btVector3 inertia(0,0,0);
-  if (mass)
-    colShape->calculateLocalInertia(mass,inertia);
-  btRigidBody::btRigidBodyConstructionInfo rbci(mass,0,colShape,inertia);
-  rbci.m_startWorldTransform = startTrans;
+    //Visualisation for the rigid body
+    irr::scene::ISceneNode *node = smgr->addCubeSceneNode(1.0f);
+    node->setMaterialFlag(irr::video::EMF_LIGHTING, 1);
+    node->setMaterialFlag(irr::video::EMF_NORMALIZE_NORMALS, true);
+    node->setMaterialTexture(0, driver->getTexture("assets/cube.png"));
 
-  btRigidBody* body = new btRigidBody(rbci);
-  world->addRigidBody(body);
-  return body;
+    btVector3 inertia(0,0,0);
+    if(mass)
+	colShape->calculateLocalInertia(mass,inertia);
+    btRigidBody::btRigidBodyConstructionInfo rbci(mass,0,colShape,inertia);
+    rbci.m_startWorldTransform = startTrans;
+
+
+    // Add it to the world
+    btRigidBody* body = new btRigidBody(rbci);
+    body->setUserPointer((void *)(node));
+
+    world->addRigidBody(body);
+    worldObjs.push_back(body);
+    return body;
 
 }
 
