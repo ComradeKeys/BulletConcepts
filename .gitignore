@@ -11,8 +11,9 @@
 CarHandling/build/
 CarHandling/bin/
 CarHandling/CMakeFiles/
-CarHandling/cmake_install
+CarHandling/cmake_install.cmake
 CarHandling/bin/
+CarHandling/Makefile
 
 notes.txt
 LessonPlans.txt

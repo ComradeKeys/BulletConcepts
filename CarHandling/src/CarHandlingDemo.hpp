@@ -13,8 +13,7 @@ subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef CARHANDLING_DEMO_H
-#define CARHANDLING_DEMO_H
+#pragma once
 
 #include <BulletDynamics/Vehicle/btRaycastVehicle.h>
 
@@ -41,8 +40,6 @@ public:
 		return false;
 	}
 
-	virtual void renderScene();
-
 	virtual void physicsDebugDraw(int debugFlags);
 
 	virtual void resetCamera()
@@ -54,8 +51,6 @@ public:
 	}
 
 private:
-	btDiscreteDynamicsWorld* dynamicsWorld;
-
 	btRaycastVehicle* vehicle;
 
 	btAlignedObjectArray<btCollisionShape*> collisionShapes;
@@ -69,5 +64,3 @@ private:
 		btRaycastVehicle* vehicle,
 		btRaycastVehicle::btVehicleTuning tuning);
 };
-
-#endif // FORKLIFT_DEMO_H

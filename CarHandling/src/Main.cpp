@@ -5,7 +5,7 @@
 #include "LinearMath/btTransform.h"
 #include "LinearMath/btHashMap.h"
 
-#include "CarHandlingDemo.h"
+#include "CarHandlingDemo.hpp"
 #include "Globals.hpp"
 #include "Func.hpp"
 
@@ -39,7 +39,6 @@ int main(int argc, char* argv[]) {
 	updatePhysics(deltaTime);
 
 	example.stepSimulation(1.f/60.f);
-	example.renderScene();
 
 	// Irrlicht draws the scene
 	driver->beginScene(true, true, irr::video::SColor(0, 15, 192, 252));

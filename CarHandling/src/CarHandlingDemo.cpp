@@ -23,7 +23,8 @@ subject to the following restrictions:
 #include <LinearMath/btAlignedObjectArray.h>
 #include <btBulletCollisionCommon.h>
 #include <stdio.h>
-#include "CarHandlingDemo.h"
+#include "CarHandlingDemo.hpp"
+#include "Globals.hpp"
 
 CarHandlingDemo::CarHandlingDemo()
 {
@@ -31,22 +32,8 @@ CarHandlingDemo::CarHandlingDemo()
 
 void CarHandlingDemo::initPhysics()
 {
-	//Collision configuration contains default setup for memory, collision setup. Advanced users can create their own configuration.
-	btDefaultCollisionConfiguration* collisionConfiguration = new btDefaultCollisionConfiguration();
 
-	//Use the default collision dispatcher. For parallel processing you can use a diffent dispatcher (see Extras/BulletMultiThreaded)
-	btCollisionDispatcher* dispatcher = new	btCollisionDispatcher(collisionConfiguration);
-
-	//btDbvtBroadphase is a good general purpose broadphase. You can also try out btAxis3Sweep.
-	btBroadphaseInterface* overlappingPairCache = new btDbvtBroadphase();
-
-	//The default constraint solver. For parallel processing you can use a different solver (see Extras/BulletMultiThreaded)
-	btSequentialImpulseConstraintSolver* solver = new btSequentialImpulseConstraintSolver;
-
-	//Creates the dynamics world, wich will be responsable for managing our physics objects and constraints
-	this->dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
-
-	this->dynamicsWorld->setGravity(btVector3(0, -10, 0));
+	world->setGravity(btVector3(0, -10, 0));
 
 	//keep track of the shapes, we release memory at exit.
 	//make sure to re-use collision shapes among rigid bodies whenever possible!
@@ -61,7 +48,7 @@ void CarHandlingDemo::initPhysics()
 		btRigidBody* groundRigidBody = this->createGroundRigidBodyFromShape(groundShape);
 
 		//Adds it to the world
-		this->dynamicsWorld->addRigidBody(groundRigidBody);
+		world->addRigidBody(groundRigidBody);
 	}
 
 	{
@@ -93,9 +80,9 @@ void CarHandlingDemo::initPhysics()
 		btRigidBody* chassisRigidBody = this->createChassisRigidBodyFromShape(compound);
 
 		//Adds the vehicle chassis to the world
-		this->dynamicsWorld->addRigidBody(chassisRigidBody);
+		world->addRigidBody(chassisRigidBody);
 
-		btVehicleRaycaster* vehicleRayCaster = new btDefaultVehicleRaycaster(this->dynamicsWorld);
+		btVehicleRaycaster* vehicleRayCaster = new btDefaultVehicleRaycaster(world);
 
 		btRaycastVehicle::btVehicleTuning tuning;
 
@@ -106,7 +93,7 @@ void CarHandlingDemo::initPhysics()
 		chassisRigidBody->setActivationState(DISABLE_DEACTIVATION);
 
 		//Adds the vehicle to the world
-		this->dynamicsWorld->addVehicle(this->vehicle);
+		world->addVehicle(this->vehicle);
 
 		//Adds the wheels to the vehicle
 		this->addWheels(&halfExtends, this->vehicle, tuning);
@@ -206,24 +193,24 @@ void CarHandlingDemo::addWheels(
 
 void CarHandlingDemo::exitPhysics()
 {
-	for (int i = this->dynamicsWorld->getNumCollisionObjects() - 1; i >= 0; i--)
+	for (int i = world->getNumCollisionObjects() - 1; i >= 0; i--)
 	{
-		btCollisionObject* obj = dynamicsWorld->getCollisionObjectArray()[i];
+		btCollisionObject* obj = world->getCollisionObjectArray()[i];
 		btRigidBody* body = btRigidBody::upcast(obj);
 		if (body && body->getMotionState())
 		{
 			while (body->getNumConstraintRefs())
 			{
 				btTypedConstraint* constraint = body->getConstraintRef(0);
-				dynamicsWorld->removeConstraint(constraint);
+				world->removeConstraint(constraint);
 				delete constraint;
 			}
 			delete body->getMotionState();
-			this->dynamicsWorld->removeRigidBody(body);
+			world->removeRigidBody(body);
 		}
 		else
 		{
-			this->dynamicsWorld->removeCollisionObject(obj);
+			world->removeCollisionObject(obj);
 		}
 		delete obj;
 	}
@@ -236,11 +223,11 @@ void CarHandlingDemo::exitPhysics()
 	}
 	collisionShapes.clear();
 
-	btConstraintSolver* constraintSolver = this->dynamicsWorld->getConstraintSolver();
-	btBroadphaseInterface* broadphaseInterface = this->dynamicsWorld->getBroadphase();
-	btDispatcher* collisionDispatcher = this->dynamicsWorld->getDispatcher();
+	btConstraintSolver* constraintSolver = world->getConstraintSolver();
+	btBroadphaseInterface* broadphaseInterface = world->getBroadphase();
+	btDispatcher* collisionDispatcher = world->getDispatcher();
 
-	delete this->dynamicsWorld;
+	delete world;
 	delete this->vehicle;
 
 	delete constraintSolver;
@@ -254,29 +241,15 @@ CarHandlingDemo::~CarHandlingDemo()
 
 void CarHandlingDemo::physicsDebugDraw(int debugFlags)
 {
-	if (this->dynamicsWorld && this->dynamicsWorld->getDebugDrawer())
+	if (world && world->getDebugDrawer())
 	{
-		this->dynamicsWorld->getDebugDrawer()->setDebugMode(debugFlags);
-		this->dynamicsWorld->debugDrawWorld();
-	}
-}
-
-void CarHandlingDemo::renderScene() {
-
-	for(int i = this->dynamicsWorld->getNumCollisionObjects() - 1; i >= 0; i--) {
-	  btCollisionObject* obj = dynamicsWorld->getCollisionObjectArray()[i];
-	  btRigidBody* body = btRigidBody::upcast(obj);
-
-	  if(body && body->getMotionState()) {
-	      btTransform tr;
-	      body->getMotionState()->getWorldTransform(tr);
-	      printf("Y: %f\n", tr.getOrigin().getY());
-	  }
+		world->getDebugDrawer()->setDebugMode(debugFlags);
+		world->debugDrawWorld();
 	}
 }
 
 void CarHandlingDemo::stepSimulation(float deltaTime)
 {
-	dynamicsWorld->stepSimulation(deltaTime, 2);
+	world->stepSimulation(deltaTime, 2);
 }
 
