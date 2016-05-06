@@ -103,24 +103,37 @@ void CarHandlingDemo::initPhysics()
 
 btRigidBody* CarHandlingDemo::createChassisRigidBodyFromShape(btCollisionShape* chassisShape)
 {
-	btTransform chassisTransform;
-	chassisTransform.setIdentity();
-	chassisTransform.setOrigin(btVector3(0, 1, 0));
+    //Visualisation for the rigid body
+    irr::scene::ISceneNode *node = smgr->addCubeSceneNode(1.0f);
+    node->setMaterialFlag(irr::video::EMF_LIGHTING, 1);
+    node->setMaterialTexture(0, driver->getTexture("assets/cube.png"));
 
-	{
-		//chassis mass 
-		btScalar mass(1200);
 
-		//since it is dynamic, we calculate its local inertia
-		btVector3 localInertia(0, 0, 0);
-		chassisShape->calculateLocalInertia(mass, localInertia);
+    btTransform chassisTransform;
+    chassisTransform.setIdentity();
+    chassisTransform.setOrigin(btVector3(0, 1, 0));
 
-		//using motionstate is optional, it provides interpolation capabilities, and only synchronizes 'active' objects
-		btDefaultMotionState* groundMotionState = new btDefaultMotionState(chassisTransform);
-		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, groundMotionState, chassisShape, localInertia);
+    {
+	//chassis mass 
+	btScalar mass(1200);
 
-		return new btRigidBody(rbInfo);
-	}
+	//since it is dynamic, we calculate its local inertia
+	btVector3 localInertia(0, 0, 0);
+	chassisShape->calculateLocalInertia(mass, localInertia);
+
+	//using motionstate is optional, it provides interpolation capabilities, and only synchronizes 'active' objects
+	btDefaultMotionState* groundMotionState = new btDefaultMotionState(chassisTransform);
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, groundMotionState, chassisShape, localInertia);
+
+    // Store a pointer to the irrlicht node so we can update it later
+    btRigidBody *rigidBody =  new btRigidBody(rbInfo);
+
+    rigidBody->setUserPointer((void *)(node));
+    worldObjs.push_back(rigidBody);
+
+
+	return rigidBody;
+    }
 }
 
 btRigidBody* CarHandlingDemo::createGroundRigidBodyFromShape(btCollisionShape* groundShape)

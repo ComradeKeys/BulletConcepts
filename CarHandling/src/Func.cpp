@@ -22,7 +22,7 @@ void updatePhysics(const irr::u32 &deltaTime) {
 void createScene() {
     clearObjects();
     createBox(btVector3(0.0f, 0.0f, 0.0f), irr::core::vector3df(100.0f, 0.5f, 100.0f), 0.0f, "assets/grass.png");
-    createBox(btVector3(0.0f, 5.0f, 0.0f), irr::core::vector3df(1.0f, 1.0f, 1.0f), 10.0f, "assets/cube.png");
+    //    createBox(btVector3(0.0f, 5.0f, 0.0f), irr::core::vector3df(1.0f, 1.0f, 1.0f), 10.0f, "assets/cube.png");
     createSphere(btVector3(-2.0f, 5.0f, 0.0f), 1.0f, 10.0f, "assets/earth.jpg");
     createCylinder(btVector3(2.0f, 5.0f, 0.0f), btVector3(1.0f, 1.0f, 10.0f), 10.0f, "assets/stone.png");
 }
