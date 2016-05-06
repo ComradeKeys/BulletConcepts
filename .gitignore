@@ -7,8 +7,12 @@
 03/bin/
 03/build/
 03/bin/
-VehicleDemo/build/
-VehicleDemo/bin/
+
+CarHandling/build/
+CarHandling/bin/
+CarHandling/CMakeFiles/
+CarHandling/cmake_install
+CarHandling/bin/
 
 notes.txt
 LessonPlans.txt

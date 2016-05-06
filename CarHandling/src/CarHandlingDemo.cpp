@@ -13,86 +13,20 @@ subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "btBulletDynamicsCommon.h"
-#include "BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h"
-#include "BulletDynamics/MLCPSolvers/btDantzigSolver.h"
-#include "BulletDynamics/MLCPSolvers/btSolveProjectedGaussSeidel.h"
-#include "BulletDynamics/MLCPSolvers/btMLCPSolver.h"
-#include "BulletDynamics/Vehicle/btRaycastVehicle.h"
-#include "BulletDynamics/ConstraintSolver/btHingeConstraint.h"
-#include "BulletDynamics/ConstraintSolver/btSliderConstraint.h"
-#include "../CommonInterfaces/CommonExampleInterface.h"
-#include "LinearMath/btAlignedObjectArray.h"
-#include "btBulletCollisionCommon.h"
-#include "../CommonInterfaces/CommonGUIHelperInterface.h"
-#include "../CommonInterfaces/CommonRenderInterface.h"
-#include "../CommonInterfaces/CommonWindowInterface.h"
-#include "../CommonInterfaces/CommonGraphicsAppInterface.h"
+#include <btBulletDynamicsCommon.h>
+#include <BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h>
+#include <BulletDynamics/MLCPSolvers/btDantzigSolver.h>
+#include <BulletDynamics/MLCPSolvers/btSolveProjectedGaussSeidel.h>
+#include <BulletDynamics/MLCPSolvers/btMLCPSolver.h>
+#include <BulletDynamics/ConstraintSolver/btHingeConstraint.h>
+#include <BulletDynamics/ConstraintSolver/btSliderConstraint.h>
+#include <LinearMath/btAlignedObjectArray.h>
+#include <btBulletCollisionCommon.h>
 #include <stdio.h>
 #include "CarHandlingDemo.h"
 
-
-class CarHandlingDemo : public CommonExampleInterface
+CarHandlingDemo::CarHandlingDemo()
 {
-public:
-
-	CarHandlingDemo(struct GUIHelperInterface* helper);
-
-	void initPhysics();
-
-	void exitPhysics();
-
-	virtual ~CarHandlingDemo();
-
-	virtual void stepSimulation(float deltaTime);
-
-	virtual bool mouseMoveCallback(float x, float y)
-	{
-		return false;
-	}
-
-	virtual bool mouseButtonCallback(int button, int state, float x, float y)
-	{
-		return false;
-	}
-
-	virtual bool keyboardCallback(int key, int state);
-
-	virtual void renderScene();
-
-	virtual void physicsDebugDraw(int debugFlags);
-
-	virtual void resetCamera()
-	{
-		float dist = 5 * 8;
-		float pitch = -45;
-		float yaw = 32;
-		float targetPos[3] = { -0.33, -0.72, 4.5 };
-		guiHelper->resetCamera(dist, pitch, yaw, targetPos[0], targetPos[1], targetPos[2]);
-	}
-
-private:
-	GUIHelperInterface* guiHelper;
-
-	btDiscreteDynamicsWorld* dynamicsWorld;
-
-	btRaycastVehicle* vehicle;
-
-	btAlignedObjectArray<btCollisionShape*> collisionShapes;
-
-	btRigidBody* createGroundRigidBodyFromShape(btCollisionShape* groundShape);
-
-	btRigidBody* createChassisRigidBodyFromShape(btCollisionShape* chassisShape);
-
-	void addWheels(
-		btVector3* halfExtents,
-		btRaycastVehicle* vehicle,
-		btRaycastVehicle::btVehicleTuning tuning);
-};
-
-CarHandlingDemo::CarHandlingDemo(struct GUIHelperInterface* helper) : guiHelper(helper)
-{
-	helper->setUpAxis(1);
 }
 
 void CarHandlingDemo::initPhysics()
@@ -113,8 +47,6 @@ void CarHandlingDemo::initPhysics()
 	this->dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
 
 	this->dynamicsWorld->setGravity(btVector3(0, -10, 0));
-
-	guiHelper->createPhysicsDebugDrawer(this->dynamicsWorld);
 
 	//keep track of the shapes, we release memory at exit.
 	//make sure to re-use collision shapes among rigid bodies whenever possible!
@@ -180,7 +112,6 @@ void CarHandlingDemo::initPhysics()
 		this->addWheels(&halfExtends, this->vehicle, tuning);
 	}
 
-	guiHelper->autogenerateGraphicsObjects(this->dynamicsWorld);
 }
 
 btRigidBody* CarHandlingDemo::createChassisRigidBodyFromShape(btCollisionShape* chassisShape)
@@ -330,10 +261,7 @@ void CarHandlingDemo::physicsDebugDraw(int debugFlags)
 	}
 }
 
-void CarHandlingDemo::renderScene()
-{
-	this->guiHelper->syncPhysicsToGraphics(this->dynamicsWorld);
-	this->guiHelper->render(this->dynamicsWorld);
+void CarHandlingDemo::renderScene() {
 
 	for(int i = this->dynamicsWorld->getNumCollisionObjects() - 1; i >= 0; i--) {
 	  btCollisionObject* obj = dynamicsWorld->getCollisionObjectArray()[i];
@@ -352,83 +280,3 @@ void CarHandlingDemo::stepSimulation(float deltaTime)
 	dynamicsWorld->stepSimulation(deltaTime, 2);
 }
 
-bool CarHandlingDemo::keyboardCallback(int key, int state)
-{
-	bool handled = false;
-
-	//Key pressed events
-	if (state)
-	{
-		if (key == B3G_LEFT_ARROW)
-		{
-			this->vehicle->setSteeringValue(btScalar(0.3), 0);
-			this->vehicle->setSteeringValue(btScalar(0.3), 1);
-			handled = true;
-		}
-
-		if (key == B3G_RIGHT_ARROW)
-		{
-			this->vehicle->setSteeringValue(btScalar(-0.3), 0);
-			this->vehicle->setSteeringValue(btScalar(-0.3), 1);
-			handled = true;
-		}
-
-		if (key == B3G_UP_ARROW)
-		{
-			this->vehicle->applyEngineForce(5000, 2);
-			this->vehicle->applyEngineForce(5000, 3);
-			handled = true;
-		}
-
-		if (key == B3G_DOWN_ARROW)
-		{
-			this->vehicle->applyEngineForce(-3000, 2);
-			this->vehicle->applyEngineForce(-3000, 3);
-			handled = true;
-		}
-
-		//Handbrake
-		if (key == B3G_CONTROL)
-		{
-			this->vehicle->setBrake(500, 2);
-			this->vehicle->setBrake(500, 3);
-			handled = true;
-		}
-
-	}
-	//Key released events
-	else
-	{
-		if (key == B3G_LEFT_ARROW || key == B3G_RIGHT_ARROW)
-		{
-			this->vehicle->setSteeringValue(0, 0);
-			this->vehicle->setSteeringValue(0, 1);
-			handled = true;
-		}
-
-		if (key == B3G_UP_ARROW || key == B3G_DOWN_ARROW)
-		{
-			this->vehicle->applyEngineForce(0, 2);
-			this->vehicle->applyEngineForce(0, 3);
-
-			//Default braking force, always added otherwise there is no friction on the wheels
-			this->vehicle->setBrake(10, 2);
-			this->vehicle->setBrake(10, 3);
-			handled = true;
-		}
-
-		if (key == B3G_CONTROL)
-		{
-			this->vehicle->setBrake(0, 2);
-			this->vehicle->setBrake(0, 3);
-			handled = true;
-		}
-	}
-
-	return handled;
-}
-
-CommonExampleInterface* CarHandlingCreateFunc(struct CommonExampleOptions& options)
-{
-	return new CarHandlingDemo(options.m_guiHelper);
-}
