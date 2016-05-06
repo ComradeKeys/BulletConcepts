@@ -150,6 +150,87 @@ src/CarHandlingDemo.cpp.s:
 	$(MAKE) -f CMakeFiles/example01.dir/build.make CMakeFiles/example01.dir/src/CarHandlingDemo.cpp.s
 .PHONY : src/CarHandlingDemo.cpp.s
 
+src/Func.o: src/Func.cpp.o
+
+.PHONY : src/Func.o
+
+# target to build an object file
+src/Func.cpp.o:
+	$(MAKE) -f CMakeFiles/example01.dir/build.make CMakeFiles/example01.dir/src/Func.cpp.o
+.PHONY : src/Func.cpp.o
+
+src/Func.i: src/Func.cpp.i
+
+.PHONY : src/Func.i
+
+# target to preprocess a source file
+src/Func.cpp.i:
+	$(MAKE) -f CMakeFiles/example01.dir/build.make CMakeFiles/example01.dir/src/Func.cpp.i
+.PHONY : src/Func.cpp.i
+
+src/Func.s: src/Func.cpp.s
+
+.PHONY : src/Func.s
+
+# target to generate assembly for a file
+src/Func.cpp.s:
+	$(MAKE) -f CMakeFiles/example01.dir/build.make CMakeFiles/example01.dir/src/Func.cpp.s
+.PHONY : src/Func.cpp.s
+
+src/Globals.o: src/Globals.cpp.o
+
+.PHONY : src/Globals.o
+
+# target to build an object file
+src/Globals.cpp.o:
+	$(MAKE) -f CMakeFiles/example01.dir/build.make CMakeFiles/example01.dir/src/Globals.cpp.o
+.PHONY : src/Globals.cpp.o
+
+src/Globals.i: src/Globals.cpp.i
+
+.PHONY : src/Globals.i
+
+# target to preprocess a source file
+src/Globals.cpp.i:
+	$(MAKE) -f CMakeFiles/example01.dir/build.make CMakeFiles/example01.dir/src/Globals.cpp.i
+.PHONY : src/Globals.cpp.i
+
+src/Globals.s: src/Globals.cpp.s
+
+.PHONY : src/Globals.s
+
+# target to generate assembly for a file
+src/Globals.cpp.s:
+	$(MAKE) -f CMakeFiles/example01.dir/build.make CMakeFiles/example01.dir/src/Globals.cpp.s
+.PHONY : src/Globals.cpp.s
+
+src/InputHandler.o: src/InputHandler.cpp.o
+
+.PHONY : src/InputHandler.o
+
+# target to build an object file
+src/InputHandler.cpp.o:
+	$(MAKE) -f CMakeFiles/example01.dir/build.make CMakeFiles/example01.dir/src/InputHandler.cpp.o
+.PHONY : src/InputHandler.cpp.o
+
+src/InputHandler.i: src/InputHandler.cpp.i
+
+.PHONY : src/InputHandler.i
+
+# target to preprocess a source file
+src/InputHandler.cpp.i:
+	$(MAKE) -f CMakeFiles/example01.dir/build.make CMakeFiles/example01.dir/src/InputHandler.cpp.i
+.PHONY : src/InputHandler.cpp.i
+
+src/InputHandler.s: src/InputHandler.cpp.s
+
+.PHONY : src/InputHandler.s
+
+# target to generate assembly for a file
+src/InputHandler.cpp.s:
+	$(MAKE) -f CMakeFiles/example01.dir/build.make CMakeFiles/example01.dir/src/InputHandler.cpp.s
+.PHONY : src/InputHandler.cpp.s
+
 src/Main.o: src/Main.cpp.o
 
 .PHONY : src/Main.o
@@ -189,6 +270,15 @@ help:
 	@echo "... src/CarHandlingDemo.o"
 	@echo "... src/CarHandlingDemo.i"
 	@echo "... src/CarHandlingDemo.s"
+	@echo "... src/Func.o"
+	@echo "... src/Func.i"
+	@echo "... src/Func.s"
+	@echo "... src/Globals.o"
+	@echo "... src/Globals.i"
+	@echo "... src/Globals.s"
+	@echo "... src/InputHandler.o"
+	@echo "... src/InputHandler.i"
+	@echo "... src/InputHandler.s"
 	@echo "... src/Main.o"
 	@echo "... src/Main.i"
 	@echo "... src/Main.s"
