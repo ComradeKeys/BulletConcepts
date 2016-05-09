@@ -1,0 +1,601 @@
+# Blender MTL File: 'olivermath-1.blend'
+# Material Count: 59
+
+newmtl Material
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/textures/generic/stk_generic_paper_a.png
+
+newmtl Material_NONE
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl Material_stk_goldMetal_a.png
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/textures/industry/stk_goldMetal_a.png
+
+newmtl Material_stk_greyMetal_a.png
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/textures/industry/stk_greyMetal_a.png
+
+newmtl Material_stk_lightGrayMetal_a.png
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/textures/industry/stk_lightGrayMetal_a.png
+
+newmtl Material_stkflag_smartphoneLandscape_a.png
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/textures/flags/stkflag_smartphoneLandscape_a.png
+
+newmtl Material_stkkart_wheel_c.png
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/textures/wheels/stkkart_wheel_c.png
+
+newmtl None
+Ns 0
+Ka 0.000000 0.000000 0.000000
+Kd 0.8 0.8 0.8
+Ks 0.8 0.8 0.8
+d 1
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/textures/generic/stktex_generic_WoodA.png
+
+newmtl None_NONE
+Ns 0
+Ka 0.000000 0.000000 0.000000
+Kd 0.8 0.8 0.8
+Ks 0.8 0.8 0.8
+d 1
+illum 2
+
+newmtl None_clouds.png
+Ns 0
+Ka 0.000000 0.000000 0.000000
+Kd 0.8 0.8 0.8
+Ks 0.8 0.8 0.8
+d 1
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/tracks/mathclass/clouds.png
+
+newmtl None_mathclassceiling.png
+Ns 0
+Ka 0.000000 0.000000 0.000000
+Kd 0.8 0.8 0.8
+Ks 0.8 0.8 0.8
+d 1
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/tracks/mathclass/mathclassceiling.png
+
+newmtl None_mathclassnorth.rgb
+Ns 0
+Ka 0.000000 0.000000 0.000000
+Kd 0.8 0.8 0.8
+Ks 0.8 0.8 0.8
+d 1
+illum 2
+map_Kd /home/rudy/olivermath/mathclassnorth.png
+
+newmtl None_mathclasssouth.rgb
+Ns 0
+Ka 0.000000 0.000000 0.000000
+Kd 0.8 0.8 0.8
+Ks 0.8 0.8 0.8
+d 1
+illum 2
+map_Kd /home/rudy/olivermath/mathclasssouth.png
+
+newmtl None_mathclasswest.png
+Ns 0
+Ka 0.000000 0.000000 0.000000
+Kd 0.8 0.8 0.8
+Ks 0.8 0.8 0.8
+d 1
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/tracks/mathclass/mathclasswest.png
+
+newmtl None_stk_goldMetal_a.png
+Ns 0
+Ka 0.000000 0.000000 0.000000
+Kd 0.8 0.8 0.8
+Ks 0.8 0.8 0.8
+d 1
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/textures/industry/stk_goldMetal_a.png
+
+newmtl None_stk_greyMetal_a.png
+Ns 0
+Ka 0.000000 0.000000 0.000000
+Kd 0.8 0.8 0.8
+Ks 0.8 0.8 0.8
+d 1
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/textures/industry/stk_greyMetal_a.png
+
+newmtl None_stk_lightGrayMetal_a.png
+Ns 0
+Ka 0.000000 0.000000 0.000000
+Kd 0.8 0.8 0.8
+Ks 0.8 0.8 0.8
+d 1
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/textures/industry/stk_lightGrayMetal_a.png
+
+newmtl None_stkflag_latexBluePinkPattern_a.png
+Ns 0
+Ka 0.000000 0.000000 0.000000
+Kd 0.8 0.8 0.8
+Ks 0.8 0.8 0.8
+d 1
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/textures/flags/stkflag_latexBluePinkPattern_a.png
+
+newmtl None_stkflag_stkVertical_a.png
+Ns 0
+Ka 0.000000 0.000000 0.000000
+Kd 0.8 0.8 0.8
+Ks 0.8 0.8 0.8
+d 1
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/textures/flags/stkflag_stkVertical_a.png
+
+newmtl None_stkflag_worldMap_a.png
+Ns 0
+Ka 0.000000 0.000000 0.000000
+Kd 0.8 0.8 0.8
+Ks 0.8 0.8 0.8
+d 1
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/textures/flags/stkflag_worldMap_a.png
+
+newmtl None_stklib_conifer_a_low.png
+Ns 0
+Ka 0.000000 0.000000 0.000000
+Kd 0.8 0.8 0.8
+Ks 0.8 0.8 0.8
+d 1
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/textures/nature/stklib_conifer_a_low.png
+
+newmtl None_stktex_beachball_a.png
+Ns 0
+Ka 0.000000 0.000000 0.000000
+Kd 0.8 0.8 0.8
+Ks 0.8 0.8 0.8
+d 1
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/textures/streetFurnitures/stktex_beachball_a.png
+
+newmtl None_tv.rgb
+Ns 0
+Ka 0.000000 0.000000 0.000000
+Kd 0.8 0.8 0.8
+Ks 0.8 0.8 0.8
+d 1
+illum 2
+map_Kd /home/rudy/olivermath/tv.png
+
+newmtl ac3dmat0.001
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.000000 0.000000 0.000000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/tracks/mathclass/mathclasswest.png
+
+newmtl ac3dmat0.001_mathclassceiling.png
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.000000 0.000000 0.000000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/tracks/mathclass/mathclassceiling.png
+
+newmtl ac3dmat0.001_mathclassnorth.rgb
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.000000 0.000000 0.000000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/rudy/olivermath/mathclassnorth.png
+
+newmtl ac3dmat0.001_mathclasswest.rgb
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.000000 0.000000 0.000000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/rudy/olivermath/mathclasswest.png
+
+newmtl ac3dmat0.001_stk_generic_gridA.png
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.000000 0.000000 0.000000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/textures/generic/stk_generic_gridA.png
+
+newmtl ac3dmat0.001_stk_glassOrangeCocktail_a.png
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.000000 0.000000 0.000000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/textures/transparency/stk_glassOrangeCocktail_a.png
+
+newmtl ac3dmat0.001_stk_metalRustedBlue_a.png
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.000000 0.000000 0.000000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/textures/industry/stk_metalRustedBlue_a.png
+
+newmtl ac3dmat0.003
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.000000 0.000000 0.000000
+Ks 0.078437 0.078437 0.078437
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.541000
+illum 2
+
+newmtl ac3dmat1.002
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.800000 0.800000 0.800000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/rudy/olivermath/homework.png
+
+newmtl ac3dmat1.005
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.800000 0.800000 0.800000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/rudy/olivermath/mathclasseast.png
+
+newmtl ac3dmat1.005_NONE
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.800000 0.800000 0.800000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl ac3dmat1.005_mathclassnorth.rgb
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.800000 0.800000 0.800000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/rudy/olivermath/mathclassnorth.png
+
+newmtl ac3dmat1.005_mathclasssouth.rgb
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.800000 0.800000 0.800000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/rudy/olivermath/mathclasssouth.png
+
+newmtl ac3dmat1.005_mathclasswest.png
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.800000 0.800000 0.800000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/tracks/mathclass/mathclasswest.png
+
+newmtl ac3dmat1.005_mathclasswest.rgb
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.800000 0.800000 0.800000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/rudy/olivermath/mathclasswest.png
+
+newmtl ac3dmat1.005_stk_generic_carpet_a.png
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.800000 0.800000 0.800000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/textures/generic/stk_generic_carpet_a.png
+
+newmtl ac3dmat1.006
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.800000 0.800000 0.800000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/rudy/olivermath/homework.png
+
+newmtl ac3dmat1.007
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.800000 0.800000 0.800000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/rudy/olivermath/ruler.png
+
+newmtl ac3dmat1.007_NONE
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.800000 0.800000 0.800000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl ac3dmat1.008
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.800000 0.800000 0.800000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/rudy/olivermath/ruler.png
+
+newmtl ac3dmat1.010
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.169600 0.144000 0.499200
+Ks 0.078437 0.078437 0.078437
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/textures/flags/stkflag_latexBluePinkPattern_a.png
+
+newmtl ac3dmat1.010_NONE
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.169600 0.144000 0.499200
+Ks 0.078437 0.078437 0.078437
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl ac3dmat11
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.746666 0.401569 0.746666
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl ac3dmat3
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.800000 0.000000 0.000000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl ac3dmat3.001
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.106400 0.122400 0.097600
+Ks 0.078437 0.078437 0.078437
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl ac3dmat3.004
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.800000 0.000000 0.000000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl ac3dmat3.005
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.100000 0.091200 0.081600
+Ks 0.078437 0.078437 0.078437
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl ac3dmat3.006
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.800000 0.000000 0.000000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/textures/flags/stkflag_latexBluePinkPattern_a.png
+
+newmtl ac3dmat3.006_NONE
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.800000 0.000000 0.000000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl ac3dmat3.007
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.100000 0.091200 0.081600
+Ks 0.078437 0.078437 0.078437
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl ac3dmat5
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.800000 0.800000 0.000000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl ac3dmat5.001
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.473600 0.596000 0.592800
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl ac3dmat5.005
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.800000 0.800000 0.000000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl ac3dmat5.006
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.800000 0.800000 0.000000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/bkeys/Devel/Media/stk_media_repo/textures/flags/stkflag_latexBluePinkPattern_a.png
+
+newmtl ac3dmat5.006_NONE
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.800000 0.800000 0.000000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl ac3dmat6
+Ns 96.078431
+Ka 0.400000 0.400000 0.400000
+Kd 0.000000 0.800000 0.000000
+Ks 0.078125 0.078125 0.078125
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2

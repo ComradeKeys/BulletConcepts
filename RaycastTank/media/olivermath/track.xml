@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!-- Generated with script from SVN rev 16343 -->
+<track  name           = "Oliver's Math Class"
+        version        = "6"
+        groups         = "standard"
+        designer       = "Oliver &amp; Steve Baker"
+        music          = "Boom_boom_boom.music"
+        screenshot     = "mathclass.jpg"
+        smooth-normals = "false"
+        default-number-of-laps = "6"
+        reverse        = "Y"
+        bloom          = "Y"
+        bloom-threshold = "0.75"
+        clouds         = "N"
+        shadows        = "Y"
+>
+</track>
